@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body,
+			html {
+				margin: 0px;
+				padding: 0px;
+				background-color: #1d1e23;
+				font-family: -apple-system-font, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+				font-size: 15px;
+				color: #efefef;
+				height: 100%;
+				-webkit-tap-highlight-color: transparent;
+			}
+			
+			.fr {
+				float: right;
+			}
+			
+			.fl {
+				float: left;
+			}
+			
+			.color999 {
+				color: #999999;
+			}
+			
+			.hidden {
+				overflow: hidden;
+			}
+			
+			.mt10 {
+				margin-top: 10px !important;
+			}
+			
+			.f12 {
+				font-size: 12px;
+			}
+			
+			.f18 {
+				font-size: 18px;
+			}
+			
+			.fx {
+				width: 100%;
+				position: fixed;
+				top: 45px;
+				z-index: 1111111;
+			}
+			
+			.list_title {
+				background-color: #424242;
+				padding: 8px 15px;
+				box-sizing: border-box;
+			}
+			
+			.w50 {
+				width: 50% !important;
+			}
+			
+			.w25 {
+				width: 25% !important;
+			}
+			
+			.tr {
+				text-align: right;
+			}
+			
+			li {
+				list-style: none;
+				border-bottom: 1px solid #424242;
+				margin-left: -40px;
+				height: 50px;
+				font-size: 18px;
+				position: relative;
+			}
+			
+			.kind {
+				height: 100%;
+				display: inline-block;
+				line-height: 50px;
+				margin-left: 16px;
+			}
+			
+			.stick {
+				position: absolute;
+				top: 50%;
+				margin: -9px;
+				left: 69%;
+			}
+			
+			.up {
+				position: absolute;
+				top: 50%;
+				margin: -9px;
+				left: 84%;
+			}
+			
+			.down {
+				position: absolute;
+				top: 50%;
+				margin: -9px;
+				left: 93%;
+			}
+			
+			.mui-title1 {
+				line-height: 48px;
+				display: inline-block;
+				overflow: hidden;
+				width: auto;
+				margin: 0;
+				text-overflow: ellipsis;
+				position: absolute;
+				left: 320px;
+			}
+			
+			.mui-bar {
+				background-color: #424242;
+				height: 46px;
+			}
+			
+			.mui-bar-nav {
+				box-shadow: 0 0 0 #1D1E23;
+			}
+		</style>
+
+		<body>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left  cef" style="color: #efefef;"></a>
+				<h1 id="title" class="mui-title cef" style="font-size: 18px;color: #efefef;">规则</h1>
+				<span class="mui-title1" id="yes">完成</span>
+			</header>
+			<div class="list_title f12 hidden color999 mt10 fx">
+				<div class="item_name fl w50">交易品种</div>
+				<div class="item_name fl w25 tr">置顶</div>
+				<div class="item_name fl w25 tr">移动</div>
+			</div>
+			<div style="width: 100%;height: 85px;"></div>
+			<ul id="p_ul">
+				<!--<li>
+					<span class="kind" id="name">&nbsp;</span>
+					<span class="stick"><img src="../../images/zhidingimg.png"/></span>
+					<span class="up"><img src="../../images/shang.png"/></span>
+					<span class="down"><img src="../../images/xia.png"/></span>
+				</li>-->
+			</ul>
+
+		</body>
+		<script src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript">
+			(function($) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+
+				var p_ul = document.getElementById('p_ul');
+				//置顶的点击事件 
+				setTimeout(function() {
+					mui('.stick').on('tap', 'img', function() {
+						//在ul里第一个元素上面添加
+						p_ul.insertBefore(this.parentNode.parentNode, this.parentNode.parentNode.parentNode.firstChild);
+					});
+				}, 500);
+
+				//上移的点击事件
+				setTimeout(function() {
+					mui('.up').on('tap', 'img', function() {
+						if(this.parentNode.parentNode.previousElementSibling != null) {
+							//在当前元素得上一个兄弟节点里添加
+							p_ul.insertBefore(this.parentNode.parentNode, this.parentNode.parentNode.previousElementSibling);
+						}
+					});
+				}, 500);
+
+				//下移的点击事件
+				setTimeout(function() {
+					mui('.down').on('tap', 'img', function() {
+						//判断当前节点是都还有下一个兄弟节点
+						if(this.parentNode.parentNode.nextElementSibling != null) {
+							//判断当前节点是不是倒数第二个
+							if(this.parentNode.parentNode.nextElementSibling.nextElementSibling != null) {
+								p_ul.insertBefore(this.parentNode.parentNode, this.parentNode.parentNode.nextElementSibling.nextElementSibling);
+							} else {
+								//判断当前节点如果是倒数第二个，直接在ul里在最后的位置添加li
+								p_ul.appendChild(this.parentNode.parentNode);
+							}
+						}
+					});
+				}, 500);
+
+				function setMarketOrder(codes, orders, token, userId) {
+					mui.ajax({
+						url: api_url + 'market/setOrder',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						traditional: true, //阻止深度序列化
+						data: JSON.stringify({
+							codes: codes,
+							orders: orders,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								/*mui.openWindow({
+									url: "../../main-index.html",
+									id: "main-indexFanhui"
+								});*/
+								mui.back();
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				function getMarketList(x, token, userId) {
+
+					mui.ajax({
+						url: api_url + 'market/getList',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							order: x,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								//需要循环追加的行情数据行
+								var html = "";
+								//循环读取后台传来的数据
+								mui(obj).each(function(index) {
+									//按顺序读取元素 从0开始
+									var val = obj[index];
+									html +=
+										'<li code="' + val.code + '">' +
+										'<span class="kind" id="name">' + val.name + '</span>' +
+										'<span class="stick"><img src="../../images/zhidingimg.png"/></span>' +
+										'<span class="up"><img src="../../images/shang.png"/></span>' +
+										'<span class="down"><img src="../../images/xia.png"/></span>' +
+										'</li>';
+								})
+								//追加到html页面上
+								document.getElementById("p_ul").innerHTML = html;
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				document.getElementById("yes").onclick = function(){
+					var codes = new Array();
+					var orders = new Array();
+					var li = document.getElementsByTagName("li");
+					mui(li).each(function(index) {
+						var code = li[index].getAttribute("code");
+						var order = index + 1;
+						orders[index] = order;
+						codes[index] = code;
+					})
+					var token = "token";
+					var userId = "3";
+					setMarketOrder(codes, orders, token, userId);
+				}
+
+				mui.plusReady(function() {
+					var x = "0";
+					var token = "token";
+					var userId = "3";
+					getMarketList(x, token, userId);
+				})
+
+			})(mui);
+		</script>
+
+</html>

@@ -1,0 +1,10 @@
+@import "common";
+
+html, body{
+	width: 100%;
+	height: 100%;
+	//background-color: #1F212D;
+	background-color: #1C1E23;
+}
+
+@import "trade-chart";

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+			.buttonr {
+				font-size: 18px;
+				font-weight: normal;
+				text-decoration: none;
+				display: inline-block;
+				text-align: center;
+				overflow:hidden;
+				text-overflow:ellipsis;
+				white-space:nowrap;
+				color: #FFF;
+				background-color: #E1B080;
+				border: 1px solid #E1B080;
+				padding: .5em 1.5em;
+				margin-bottom: 0.5em;;
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+			}
+			.buttonl {
+				font-size: 18px;
+				font-weight: normal;
+				text-decoration: none;
+				display: inline-block;
+				text-align: center;
+				overflow:hidden;
+				text-overflow:ellipsis;
+				white-space:nowrap;
+				color: #E1B080;
+				background-color: #fff;
+				border: 1px solid #E1B080;
+				padding: .5em 1.5em;
+				margin-bottom: 0.5em;;
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+			}
+			.fl{
+				float: left;
+				margin-left: 1em;
+			}
+			.fr{
+				float: right;
+				margin-right: 1em;
+			}
+		</style>
+	</head>
+	<body style="margin:0;padding:0;width:100%;height:100%;text-align:center;background: #f2f2f2;">
+		<img width="100%" src="images/update.png"/>
+		<div style="position: absolute;top: 35%;left: 1.7em;">
+			<p id="explanation">更新内容</p>
+		</div>
+		<div style="width:100%;position:fixed;bottom:0;">
+			<div class="buttonl fl" onclick="back()">忽略</div>
+			<div class="buttonr fr" id="doUpdate">更新</div>
+		</div>
+	</body>
+</html>
+
+<script src="js/mui.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" charset="utf-8"> 
+		
+ //mui初始化
+(function($) {
+	$.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+
+	
+	mui.plusReady(function () {
+	   var self = plus.webview.currentWebview();
+	   // 或 var self = plus.webview.getWebviewById('new');
+//	   console.log("extras:" + self.explanation);
+//	   console.log("extras:" + self.apkUrl);
+
+
+	
+	    
+	   document.getElementById("explanation").innerHTML=self.explanation;
+	   
+	   //发送请求按钮的点击事件
+		document.getElementById("doUpdate").addEventListener('tap', function() {
+			plus.runtime.openURL(self.apkUrl);
+		});
+	  
+	})
+	
+})(mui);
+
+
+</script>

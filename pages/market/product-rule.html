@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				background: #1D1E23;
+			}
+			
+			header {
+				position: relative;
+				left: 0px;
+				top: 0px;
+			}
+			
+			.mui-bar {
+				background: #424242;
+			}
+			
+			.mui-bar-nav {
+				top: 0;
+				-webkit-box-shadow: 0 0px 0px #ccc;
+				box-shadow: 0 0px 0px #ccc;
+			}
+			
+			.firs_span {
+				border-top: 1px solid #434343;
+			}
+			
+			.tableguize {
+				line-height: 33px;
+				border-bottom: 1px solid #434343;
+			}
+			
+			.tableguize .ta_span {
+				border-right: 1px solid #434343;
+				float: left;
+			}
+			
+			.tableguize1 {
+				height: 66px;
+				line-height: 22px;
+				border-bottom: 1px solid #434343;
+				text-align: center;
+			}
+			
+			.tableguize1 .ta_span {
+				border-right: 1px solid #434343;
+				float: left;
+			}
+			
+			.tableguize2 {
+				line-height: 33px;
+				border-bottom: 1px solid #434343;
+				text-align: center;
+			}
+			
+			.tableguize1 .ta_span {
+				border-right: 1px solid #434343;
+				float: left;
+				line-height: 66px;
+			}
+			
+			.tableguize2 .ta_span {
+				border-right: 1px solid #434343;
+				float: left;
+				line-height: 66px;
+			}
+			
+			.f14 {
+				font-size: 14px;
+			}
+			
+			.w25 {
+				width: 25% !important;
+			}
+			
+			.w65 {
+				width: 65% !important;
+			}
+			
+			.w70 {
+				width: 70% !important;
+			}
+			
+			.inline_block {
+				display: inline-block;
+			}
+			
+			.tc {
+				text-align: center;
+			}
+			
+			.que {
+				padding: 15px 0px 0px 8px;
+				box-sizing: border-box;
+				border-bottom: 1px solid #434343;
+			}
+			
+			.f15 {
+				font-size: 16px;
+			}
+			
+			.que .ora {
+				width: 3px;
+				height: 14px;
+				background-color: #E1B080;
+				margin-right: 10px;
+				margin-top: 4px;
+			}
+			
+			.cef {
+				color: #efefef;
+			}
+			
+			.f131 {
+				font-size: 13px;
+				color: #e1b181;
+				padding-top: 8px;
+				line-height: 1.5em;
+			}
+			
+			.lh33 {
+				line-height: 33px;
+			}
+			
+			.lh66 {
+				line-height: 66px;
+			}
+			
+			.lh165 {
+				line-height: 22.5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left  cef"></a>
+			<h1 id="title" class="mui-title cef" style="font-size: 18px;">规则</h1>
+		</header>
+		<div class="tableguize f14 firs_span cef" style="margin-top: 44px;">
+			<span class="w25 inline_block tc ta_span">货币单位</span>
+			<span class="w70 inline_block tc" id="monetaryunit">&nbsp;</span>
+		</div>
+
+		<div class="tableguize f14">
+			<span class="w25 inline_block tc ta_span cef">交易单位</span>
+			<span class="w70 inline_block tc cef" id="tradingunit">&nbsp;</span>
+		</div>
+
+		<div class="tableguize f14">
+			<span class="w25 inline_block tc ta_span cef">交易所</span>
+			<span class="w70 inline_block tc cef" id="exchange">&nbsp;</span>
+		</div>
+
+		<div class="tableguize f14">
+			<span class="w25 inline_block tc ta_span cef">最小波动</span>
+			<span class="w70 inline_block tc cef" id="minimumfluctuation">&nbsp;</span>
+		</div>
+
+		<div class="tableguize f14">
+			<span class="w25 inline_block tc ta_span cef">浮动盈亏</span>
+			<span class="w70 inline_block tc cef" id="fluctuatingprofitandloss">&nbsp;</span>
+		</div>
+
+		<div class="tableguize f14">
+			<span class="w25 inline_block tc ta_span cef">履约保证金</span>
+			<span class="w70 inline_block tc cef" id="performancebond">&nbsp;</span>
+		</div>
+
+		<div class="tableguize f14">
+			<span class="w25 inline_block tc ta_span cef">综合交易费</span>
+			<span class="w70 inline_block tc cef" id="comprehensivefee">&nbsp;</span>
+		</div>
+
+		<div class="tableguize1 f14 cef" id="jiaoyishijian">
+			<span class="w25 inline_block tc ta_span">
+						交易时间
+					</span>
+			<span class="w65 inline_block tc" id="xis">&nbsp;</span>
+
+		</div>
+
+		<div class="tableguize1 f14 cef" id="qingcangshijian">
+			<span class="w25 inline_block tc ta_span">清仓时间</span>
+			<span class="w65 inline_block tc lh33" id="clearingtime">
+						&nbsp;
+					</span>
+		</div>
+
+		<div class="tableguize1	 f14 cef" id="huilv">
+			<span class="w25 inline_block tc ta_span">
+						汇率
+					</span>
+			<span class="w65 inline_block tc lh66" id="xias">
+						&nbsp;
+					</span>
+		</div>
+
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>美元如何兑换成人民币？</div>
+			<div class="que_con f131">
+				用户交易涉及到美元兑换人民币将使用固定汇率7进行兑换即1美元=7人民币。（实际兑换汇率波动到一定的点位会进行调整将另行公布），用户持仓结算后的盈亏将自动根据上述汇率换成人民币。
+			</div>
+		</div>
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>什么是买涨？</div>
+			<div class="que_con f131">当您买涨时，价格涨了你就赚钱，跌了亏钱。</div>
+		</div>
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>什么是买跌？</div>
+			<div class="que_con f131">当您买跌时，价格跌了你就赚钱，涨了亏钱。</div>
+		</div>
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>什么是止盈？</div>
+			<div class="que_con f131">
+				当单笔交易盈利金额触发（大于等于）指定的止盈金额时，该笔交易会被强制平仓。 由于市场的价格实时都在变动，不保证平仓后最终盈利金额一定大于等于止盈金额，有可能小于触发的止盈金额。
+			</div>
+		</div>
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>什么是止损？</div>
+			<div class="que_con f131">
+				当单笔交易亏损金额触发（大于等于）指定的止损金额时，该笔交易会被强制平仓。 由于市场的价格实时都在变动，不保证卖出后最终亏损金额一定小于等于止损金额，有可能大于止损金额。 遇到极端剧烈行情，亏损金额有可能大幅超出止损金额，超出部分由客户承担。
+			</div>
+		</div>
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>什么是持仓时间？</div>
+			<div class="que_con f131">
+				持仓时间是指交易中的期货产品该交易日的最后的持仓时间，当持仓时间到点后，持仓中的交易会被强制平仓，不保证成交价格，请务必在到期前自己选择卖出。节假日或休市随市场实际执行。
+			</div>
+		</div>
+		<div class="que cef">
+			<div class="que_title f15"><i class="inline_block ora fl"></i>什么是交易综合费？</div>
+			<div class="que_con f131">
+				期货交易的综合费由买入费用、卖出费用构成，根据不同的交易品种，单笔买卖费用有一定的差异。
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			(function($) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+
+				//产品状态规则接口
+				function getMarketStatusAndRule(code, token, userId, system_type) {
+					mui.ajax({
+						url: api_url + 'market/getStatusAndRule',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: code,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								//获取后台数据替换页面中数值
+								document.getElementById("comprehensivefee").innerHTML = obj.comprehensivefee + "人民币/手";
+								document.getElementById("exchange").innerHTML = obj.exchange;
+								document.getElementById("fluctuatingprofitandloss").innerHTML = obj.fluctuatingprofitandloss;
+								document.getElementById("minimumfluctuation").innerHTML = obj.minimumfluctuation;
+								document.getElementById("monetaryunit").innerHTML = obj.monetaryunit;
+								document.getElementById("performancebond").innerHTML = obj.performancebond + "人民币/手";
+								document.getElementById("tradingunit").innerHTML = obj.tradingunit;
+								if(obj.tradingtime.length > 12 && obj.tradingtime.length <= 38) {
+									var append = '<span class="w25 inline_block tc ta_span">交易时间</span><span class="w65 inline_block tc lh33" id="xis">' + obj.tradingtime + '</span>';
+									document.getElementById("jiaoyishijian").innerHTML = append;
+								} else if(obj.tradingtime.length <= 12) {
+									var append = '<span class="w25 inline_block tc ta_span">交易时间</span><span class="w65 inline_block tc lh66" id="xis">' + obj.tradingtime + '</span>';
+									document.getElementById("jiaoyishijian").innerHTML = append;
+								} else {
+									var append = '<span class="w25 inline_block tc ta_span">交易时间</span><span class="w65 inline_block tc lh165" id="xis">' + obj.tradingtime + '</span>';
+									document.getElementById("jiaoyishijian").innerHTML = append;
+								}
+
+								if(obj.clearingtime.length > 15 && obj.clearingtime.length <= 22) {
+									var append = '<span class="w25 inline_block tc ta_span">清仓时间</span><span class="w65 inline_block tc lh33" id="clearingtime">' + obj.clearingtime + '</span>';
+									document.getElementById("qingcangshijian").innerHTML = append;
+								} else if(obj.clearingtime.length <= 15) {
+									var append = '<span class="w25 inline_block tc ta_span">清仓时间</span><span class="w65 inline_block tc lh66" id="clearingtime">' + obj.clearingtime + '</span>';
+									document.getElementById("qingcangshijian").innerHTML = append;
+								}
+
+								if(obj.exchangerate.length > 5 && obj.exchangerate.length <= 24) {
+									var append = '<span class="w25 inline_block tc ta_span">汇率</span><span class="w65 inline_block tc lh33" id="xias">' + obj.exchangerate + '</span>';
+									document.getElementById("huilv").innerHTML = append;
+								} else if(obj.exchangerate.length <= 5) {
+									var append = '<span class="w25 inline_block tc ta_span">汇率</span><span class="w65 inline_block tc lh66" id="xias">' + obj.exchangerate + '</span>';
+									document.getElementById("huilv").innerHTML = append;
+								}
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					var code = self.code;
+					var system_type = self.system_type;
+					var token = "token";
+					var userId = 3;
+					getMarketStatusAndRule(code, token, userId, system_type);
+				})
+
+			})(mui);
+		</script>
+	</body>
+
+</html>

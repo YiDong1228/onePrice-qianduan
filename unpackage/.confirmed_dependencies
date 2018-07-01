@@ -1,0 +1,122 @@
+{
+	"main-index.html": {
+		"resources": [
+			"tab-webview-subpage-chat.html",
+			"market/market-index.html",
+			"pages/market/market-index.html"
+		],
+		"refer": [
+			"tab-webview-subpage-setting.html",
+			"tab-webview-subpage-chat.html",
+			"tab-webview-subpage-contact.html",
+			"market/market-index.html",
+			"transaction/transaction-index.html",
+			"pages/find/find-index.html",
+			"pages/market/market-index.html",
+			"pages/transaction/transaction-index.html",
+			"pages/service/service-index.html",
+			"pages/my/my-index.html",
+			"webview.html",
+			"forcewebview.html",
+			"unforced.html",
+			"force.html",
+			"pages/tarde/tarde-index.html",
+			"pages/trader/trader-index.html",
+			"pages/market/edit.html",
+			"pages/market/product-order.html"
+		]
+	},
+	"pages/market/market-index.html": {
+		"refer": [
+			"webview.html",
+			"pages/market/product-details.html"
+		],
+		"resources": []
+	},
+	"pages/find/find-index.html": {
+		"refer": [
+			"pages/find/forcewebview.html",
+			"main-index.html"
+		],
+		"resources": []
+	},
+	"pages/tarde/tarde-index.html": {
+		"refer": [
+			"pages/market/product-details.html"
+		],
+		"resources": []
+	},
+	"pages/market/rule.html": {
+		"refer": [
+			"pages/market/product-details.html"
+		],
+		"resources": []
+	},
+	"pages/market/product-details.html": {
+		"refer": [
+			"pages/market/rule.html",
+			"pages/market/pre-warning.html",
+			"pages/market/product-rule.html"
+		],
+		"resources": []
+	},
+	"pages/market/pre-warning.html": {
+		"refer": [
+			"pages/market/product-details.html"
+		],
+		"resources": []
+	},
+	"pages/market/product-order.html": {
+		"refer": [
+			"pages/market/market-index.html",
+			"main-index.html"
+		],
+		"resources": []
+	},
+	"pages/my/my-index.html": {
+		"refer": [
+			"pages/my/payment.html",
+			"pages/my/user-reg.html",
+			"pages/my/user-login.html"
+		],
+		"resources": []
+	},
+	"pages/my/user-login.html": {
+		"refer": [
+			"pages/my/user-reg.html",
+			"pages/my/user-forgetpwd.html",
+			"pages/my/user-reg-protocol.html"
+		],
+		"resources": []
+	},
+	"pages/my/user-reg.html": {
+		"resources": [
+			"pages/my/user-reg-protocol.html"
+		],
+		"refer": [
+			"pages/my/user-reg-protocol.html",
+			"pages/my/user-risk-reveal.html",
+			"pages/my/user-lightning-indent-protocol.html"
+		]
+	},
+	"pages/my/user-reg-protocol.html": {
+		"refer": [
+			"pages/my/user-reg.html"
+		]
+	},
+	"pages/my/user-risk-reveal.html": {
+		"refer": [
+			"pages/my/user-reg.html"
+		]
+	},
+	"pages/my/user-lightning-indent-protocol.html": {
+		"refer": [
+			"pages/my/user-reg.html"
+		]
+	},
+	"pages/trader/trader-index.html": {
+		"refer": [
+			"pages/trader/quicklyclose.html"
+		]
+	}
+}

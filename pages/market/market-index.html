@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #1D1E23;
+			}
+			
+			.mui-table-view {
+				background-color: #1D1E23;
+			}
+			
+			.mui-table-view-cell {
+				padding: 31px 15px;
+				position: relative;
+			}
+			
+			.mui-table-view-cell:after {
+				background-color: #000;
+				z-index: 22;
+				left: 0px;
+			}
+			
+			p {
+				color: #fff;
+			}
+			
+			.jbsg {
+				width: 122%;
+				height: 62px;
+				display: block;
+				color: #06B132;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				background: linear-gradient(to right, rgba(29, 30, 35, 0.1)0%, rgba(6, 177, 50, 0.15));
+				z-index: 11;
+			}
+			
+			.jbsr {
+				width: 122%;
+				height: 62px;
+				display: block;
+				color: #E60020;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				background: linear-gradient(to right, rgba(29, 30, 35, 0.1)0%, rgba(230, 0, 32, 0.15));
+				z-index: 11;
+			}
+			
+			.mui-table-view-cell {
+				position: relative;
+			}
+			
+			.exchange {
+				display: inline-block;
+				background: #e60020;
+				height: 15px;
+				width: 15px;
+				text-align: center;
+				line-height: 18px;
+				margin-right: 5px;
+			}
+			
+			.dominant-contract {
+				display: inline-block;
+				background: #1b1c80;
+				height: 15px;
+				width: 15px;
+				text-align: center;
+				line-height: 18px;
+				margin-right: 5px;
+			}
+			
+			.price {
+				color: #fff;
+				height: 62px;
+				position: absolute;
+				top: 0px;
+				left: 53%;
+				padding-top: 22px;
+				z-index: 22;
+				font-size: 18px;
+				width: 20%;
+				text-align: right
+			}
+			
+			.extent {
+				color: #fff;
+				height: 62px;
+				position: absolute;
+				top: 0px;
+				left: 82%;
+				padding-top: 22px;
+				z-index: 22;
+				font-size: 18px;
+			}
+			
+			.color-red {
+				color: #e60020;
+			}
+			
+			.color-green {
+				color: #06b132;
+			}
+			.color-gray {
+				color: #999;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: rgba(0, 0, 0, 0);
+			}
+			
+			.jypz {
+				background: #424242;
+				width: 100%;
+				height: 33px;
+				line-height: 30px;
+				display: block;
+				color: #999;
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				z-index: 10;
+				padding-left: 8px;
+			}
+			
+			.jypz span {
+				font-size: 15px;
+				height: 30px;
+				width: 65px;
+				display: inline-block;
+				line-height: 35px;
+			}
+			
+			
+		</style>
+	</head>
+
+	<body>
+
+		<div>
+			<span class="jypz">
+					<span>交易品种</span>
+			<span style="margin-left: 42%;">最新价</span>
+			<span style="position: relative;" id="order">
+						涨跌幅
+						<img style="position: absolute;top: 11px;right: 6px;"   src="../../images/paixunn.png"/>
+					</span>
+			</span>
+		</div>
+
+		<div class="mui-scroll">
+			<ul id="container" class="mui-table-view mui-table-view-chevron" style="margin-top: 13px;">
+				
+			</ul>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			(function($) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+
+				var network = true;
+				if(mui.os.plus) {
+					mui.plusReady(function() {
+						if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+							network = false;
+						}
+					});
+				}
+
+
+				//ajax中data order参数
+				var x = 0;
+				//ajax中data token参数
+				var token = "";
+				//ajax中data userId参数
+				var userId = 0; 
+				
+				
+				var user = JSON.parse(localStorage.getItem('$user') || '[]');
+				if(user==""){
+					//alert("没有登录");  
+				}else{
+					token = user.token;
+					userId = user.userId; 
+				}
+				alert(userId); 
+				
+
+				//统计涨跌幅点击次数 
+				document.getElementById("order").onclick = function() {
+					var cc = document.getElementById("order").innerHTML;
+					var str;
+					x += 1;
+					//当点击次数等于3时调回0
+					if(x == 3) {
+						x = 0;
+					}
+					if(x == 0) {
+						str = '涨跌幅<img style="position: absolute;top: 11px;right: 6px;"   src="../../images/paixunn.png"/>';
+					} else if(x == 1) {
+						str = '涨跌幅<img style="position: absolute;top: 11px;right: 6px;"   src="../../images/paixull.png"/>';
+					} else {
+						str = '涨跌幅<img style="position: absolute;top: 11px;right: 6px;"   src="../../images/paixurr.png"/>';
+					}
+					document.getElementById("order").innerHTML = str;
+					//点击后刷新列表重新排序
+					getMarketList();
+					return x;
+				}
+
+				function getMarketList() {
+
+					//alert(x); 
+					mui.ajax({
+						url: api_url + 'market/getList',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							order: x,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								//需要循环追加的行情数据行
+								var html;
+								//循环读取后台传来的数据
+								mui(obj).each(function(index) {
+									//按顺序读取元素 从0开始
+									var val = obj[index];
+									//根据获取的数值改变字体颜色
+									//当涨跌幅小于0时
+									if(val.changeCount < 0) {
+										html += '<li class="mui-table-view-cell"  code=' + val.code + ' code_show=' + val.codeShow  +  ' system_type=' + val.systemType + ' name=' + val.name + '>' +
+											'<span class="jbsg" id="jbs"></span>' +
+											'<div style="height: 62px;position: absolute;top: 0px;left: 8px;padding-top: 11px; z-index: 22;">' +
+											'<p><span class="exchange">' + val.exchange + '</span><span style="font-size: 18px;">' + val.name +  '</span></p>' +
+											'<p><span class="dominant-contract">主</span><span style="font-size: 10px;">' + val.codeShow + '</span></p>' +
+											'</div>' +
+											'<div class="price color-green">' + val.lastPrice + '</div>' +
+											'<div class="extent color-green">' + val.changeCount + '%</div>' +
+											'</li>';
+									}
+									//当涨跌幅大于0时 
+									if(val.changeCount > 0) {
+										html += '<li class="mui-table-view-cell" code=' + val.code + ' code_show=' + val.codeShow  +' system_type=' + val.systemType + ' name=' + val.name + '>' +
+											'<span class="jbsr" id="jbs"></span>' +
+											'<div style="height: 62px;position: absolute;top: 0px;left: 8px;padding-top: 11px; z-index: 22;">' +
+											'<p><span class="exchange">' + val.exchange + '</span><span style="font-size: 18px;">' + val.name + '</span></p>' +
+											'<p><span class="dominant-contract">主</span><span style="font-size: 10px;">' + val.codeShow + '</span></p>' +
+											'</div>' +
+											'<div class="price color-red">' + val.lastPrice + '</div>' +
+											'<div class="extent color-red">+' + val.changeCount + '%</div>' +
+											'</li>';
+									}
+									//当涨跌幅等于0时
+									if(val.changeCount == 0) {
+										html += '<li class="mui-table-view-cell" code=' + val.code + ' code_show=' + val.codeShow  +'  system_type=' + val.systemType + ' name=' + val.name + '>' +
+											'<span id="jbs"></span>' +
+											'<div style="height: 62px;position: absolute;top: 0px;left: 8px;padding-top: 11px; z-index: 22;">' +
+											'<p><span class="exchange">' + val.exchange + '</span><span style="font-size: 18px;">' + val.name + '</span></p>' +
+											'<p><span class="dominant-contract">主</span><span style="font-size: 10px;">' + val.codeShow + '</span></p>' +
+											'</div>' +
+											'<div class="price color-gray">' + val.lastPrice + '</div>' +
+											'<div class="extent color-gray">' + val.changeCount + '%</div>' +
+											'</li>';
+									}
+									//追加到html页面上
+									document.getElementById("container").innerHTML = html;
+								})
+								//mui.toast(data.message);
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+  
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				//设置定时器，行情每秒刷新1次
+				//setInterval(getMarketList, 1000);
+				setTimeout(function() {
+					mui('#container').on('tap', 'li', function() {
+						mui.openWindow({
+							url: "product-details.html",
+							id: "product-details",
+							extras: {
+								code: this.getAttribute("code"),
+								system_type: this.getAttribute("system_type"),
+								name: this.getAttribute("name"),
+								code_show: this.getAttribute("code_show")
+							}
+						});
+					});
+				}, 500);
+
+				//发送请求按钮的点击事件
+				if(network) {
+					mui.plusReady(function() {
+						//设置定时器，行情每秒刷新1次
+						setInterval(getMarketList, 1000);
+					});
+				} else {
+					mui.toast("当前网络不给力，请稍后再试");
+				}
+
+			})(mui);
+		</script>
+	</body>
+
+</html>

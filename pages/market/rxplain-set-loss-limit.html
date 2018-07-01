@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				border: 3px solid #E1B080;
+			}
+			
+			.logo {
+				width: 40%;
+				margin: 10px auto;
+				text-align: center;
+			}
+			
+			.logo img {
+				width: 50%;
+
+			}
+			
+			.why {
+				width: 80%;
+				font-size: 18px;
+				display: block;
+				margin: 0 auto;
+				color: #E1B080;
+				text-align: center;
+
+			}
+			
+			.text {
+				width: 90%;
+				margin: 0 auto;
+				display: block;
+				margin-top: 10px;
+				font-size: 14px;
+				line-height: 25px;
+				text-indent: 40px;
+				color: #999;
+				border-top: 2px solid #ddd;
+				padding-bottom: 10px;
+			}
+			
+			.mui-icon-back:before,
+			.mui-icon-left-nav:before {
+				content: '';
+			}
+			
+			.mui-pull-left {
+				position: fixed;
+				top: 5px;
+				right: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left  cef">&times;</a>
+
+		<div class="logo">
+			<img src="../../images/logo.png" />
+		</div>
+		<div>
+			<span class="why">为什么设置触发止损</span>
+			<span class="text">为什么要设置触发止损？触发止损是指在交易方向上与市场相悖、导致亏损出现时，在一定范围内设定平仓触发指令，指令触发时以市价成交，以避免出现无法控制的损失情况。触发止损的作用是自我保护，“刹车装置”保存实力，提高资金利用率。注意：触发止损后的平仓价格并不一定与您设置的价格完全一致。</span>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

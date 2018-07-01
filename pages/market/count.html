@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.count {
+				width: 40%;
+				text-align: center;
+				font-style: 14px;
+				color: #D3B581;
+				display: block;
+				margin: 0 auto;
+				margin-top: 7.5px;
+			}
+			
+			.list {
+				width: 170px;
+				height: 90px;
+				margin: 7.5px auto 5px;
+				border: 1px solid #333;
+				box-shadow: border-box;
+			}
+			.cf00{
+				color: #f00;
+				font-size: 12px;
+				float: right;
+			}
+			.move{
+				width: 170px;
+				margin: 0 auto;
+				font-size: 12px;
+			}
+			.mt6{
+				margin-top: 3px;
+			}
+			.explain{
+				width: 170px;
+				font-size: 8px;
+				color: #f00;
+				margin: 6px auto 5px;
+			}
+			button{
+				width: 120px;
+				height: 25px;
+				margin: 0 auto;
+				color: #f2f2f2;
+				background: #E1B080;
+				border: 1px solid #E1B080;
+				display: block;
+				line-height: 10px;
+				text-align: center;
+			}
+			.mui-pull-left {
+				position: fixed;
+				top: 5px;
+				right: 10px;
+				color: #000;
+			}
+			.mui-icon-back:before, .mui-icon-left-nav:before{
+				content: '';
+			}
+		</style>
+	</head>
+
+	<body>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left  cef">&times;</a>
+		
+		<div>
+			<span class="count">保本点数</span>
+			<div class="list"></div>
+			<div class="move">移动盈利金额<span class="cf00">-56000</span></div>
+			<div class="move mt6">保本盈利金额<span class="cf00">31500</span></div>
+			<div class="explain">移动点数应大于保本点数</div>
+			<button>确定</button>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

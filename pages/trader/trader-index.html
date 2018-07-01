@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>交易</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/order_list.css" />
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<style>
+			body {
+				background: #ddd;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			p {
+				text-align: center;
+				font-size: 20px;
+			}
+			
+			img {
+				display: block;
+				width: 90%;
+				margin: 0 auto;
+				margin-top: 75px;
+			}
+			
+			.mui-btn-block {
+				font-size: 18px;
+				display: block;
+				width: 75%;
+				margin: 70px auto;
+				padding: 15px 0;
+			}
+			
+			.mui-btn-warning,
+			.mui-btn-yellow {
+				color: #fff;
+				border: 1px solid #d9a068;
+				border-radius: 4px;
+				background-color: #d9a068;
+			}
+			
+			.mui-btn-outlined {
+				color: #d9a068;
+				border: 1px solid #efefef;
+				border-radius: 4px;
+				background-color: #efefef;
+				margin-top: -60px;
+			}
+			
+			.log-in {
+				background: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--未登录-->
+		<div id="log-out" style="height:100vh;background: url(../../images/bgimg.png);display: none;">
+			<p style="padding-top: 45px;">东港通</p>
+			<p class="">投资理财&nbsp;如此简单</p>
+			<img src="../../images/register.png" />
+			<button type="button" class="mui-btn mui-btn-warning mui-btn-block">已有账户，立即登录</button>
+			<button type="button" class="mui-btn mui-btn-warning mui-btn-block mui-btn-outlined">立即注册</button>
+		</div>
+		<!--登录-->
+		<div id="log-in" class="log-in">
+			<!--头部信息-->
+			<div class="information">
+				<div class="item_price">
+					<span class="f24">948.75</span>
+				</div>
+				<span class="all-btn">全部平仓</span>
+
+				<div class="kyye">
+					<div class="hidden f12 color999">
+						<div class="fl w33">冻结保证金</div>
+						<div class="fl w33 tc">可用余额</div>
+						<div class="fl w33 tr">持仓</div>
+					</div>
+					<span class="left-line"></span>
+					<span class="right-line"></span>
+					<div class="hidden f12 color_000">
+						<div class="fl w33">6900</div>
+						<div class="fl w33 tc">122354</div>
+						<div class="fl w33 tr">3</div>
+					</div>
+				</div>
+			</div>
+			<!--产品信息-->
+			<div class="orderlist">
+				<div>
+					<span class="color_000 bk">
+						<span style="margin-left: 2px;">德指</span>
+					<span class="cf">1手</span>
+					</span>
+					<span class="buy-up">买涨</span>
+					<span class="fr f12"><span id="time">04:10</span>自动平仓</span>
+				</div>
+				<div class="f12">
+					<div class="fl">
+						<div class="c999">盈亏<span class=" ml8 color_f00">83.75[9点]</span></div>
+						<div class="c999">开仓<span class="color_000 ml8">1337.5</span></div>
+						<div class="c999">开仓费用<span class="color_000 ml8">280</span></div>
+						<div class="c999">保证金<span class="color_000 ml8">280</span></div>
+						<div class="c999">开仓时间<span class="color_000 ml8">2018-03-23&nbsp;20:52</span></div>
+					</div>
+					<div class="w50 fr">
+						<div class="c999">单号<span class="color_000 ml8">1620455</span></div>
+						<div class="c999">触发止损<span class="color_000 ml8">-3750[-40点]</span></div>
+						<div class="c999">最新平仓<span class="color_000 ml8">13342.0</span></div>
+						<div class="c999">平仓费用<span class="color_000 ml8">280</span></div>
+						<div class="c999">移动保本<span class="color_000 ml8">否</span></div>
+					</div>
+				</div>
+
+				<div class="btn">
+					<span class="group_btn fl" id="toSet" onclick="">功能设置</span>
+					<span class="group_btn fr" id="fast" onclick="quicklyClose()">快速平仓</span>
+				</div>
+
+			</div>
+
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		
+			function quicklyClose(thisExplanation, ThisApkUrl) {
+
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("quicklyclose.html", "quicklyclose.html", {
+							width: '75%',
+							height: '250px',
+							margin: "auto",
+							background: "rgba(0,0,0,0.5)",
+							scrollIndicator: 'none',
+							scalable: false,
+							popGesture: 'none'
+						}, { //传递的参数
+							explanation: thisExplanation,
+							apkUrl: ThisApkUrl
+						}
+
+					);
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				};
+	</script>
+
+</html>

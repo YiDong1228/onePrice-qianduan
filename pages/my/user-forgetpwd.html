@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+		<style>
+			<style>body {
+				background: #f2f2f2;
+			}
+			
+			img {
+				width: 20%;
+				margin: 30px auto;
+				display: block;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.name {
+				font-size: 24px;
+				text-align: center;
+			}
+			
+			.mui-input-group:before,
+			.mui-input-group:after {
+				height: 0px;
+			}
+			
+			.mui-input-group {
+				background: #f2f2f2;
+			}
+			
+			.mui-input-group .mui-input-row:after {
+				right: 15px;
+				background: #000;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 40px;
+				width: 80%;
+				margin: 0 auto;
+			}
+			
+			.mui-btn-primary {
+				border: 1px solid #E1B080;
+				background-color: #E1B080;
+			}
+			
+			a {
+				color: #999;
+			}
+			
+			.back {
+				position: absolute;
+				right: 16px;
+				top: 16px;
+				font-size: 33px;
+				color: #ccc;
+			}
+			
+			.mui-content {
+				background: #f2f2f2;
+			}
+			
+			.mui-input-row label {
+				padding: 6px 15px;
+			}
+			
+			.mui-input-row .mui-input-clear~.mui-icon-clear {
+				right: 5px;
+			}
+			
+			.mui-btn-primary:enabled:active {
+				border: 1px solid #E1B080;
+				background-color: #E1B080;
+			}
+		</style>
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">忘记密码</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label><span class="mui-icon mui-icon-phone"></span></label>
+					<input id='account' type="number" oninput="if(value.length>11) value=value.slice(0,11)"  class="mui-input-clear mui-input" placeholder="请输入手机号" style="font-size: 12px;">
+				</div>
+				<span id="accountMsg" style="font-size: 10px;text-align: center;display: block;color: red;">&nbsp;</span>
+				<div class="mui-input-row" style="margin-top: 20px;position: relative;">
+					<label><span class="mui-icon mui-icon-email"></span></label>
+					<input id='sms' type="number" oninput="if(value.length>6) value=value.slice(0,6)" class="mui-input" placeholder="请输入验证码" style="font-size: 12px;">
+					<input id="btn" class="verify" style="text-align:center;width: 22%;height: 22px;position: absolute;bottom: 8px;right: 15px;z-index: 33333333;font-size: 10px;color: #f2f2f2;background: #E1B080;border-radius: 2px;" type="button" id="btn" value="获取验证码" />
+					<input type="" name="" id="" value="asdas" />
+				</div>
+				<span id="smsMsg" style="font-size: 10px;text-align: center;display: block;color: red;">&nbsp;</span>
+				<div class="mui-input-row" style="margin-top: 20px;">
+					<label><span class="mui-icon mui-icon-locked"></span></label>
+					<input id='onePassword' type="password" oninput="if(value.length>16) value=value.slice(0,16)" class="mui-input-clear mui-input" placeholder="请输入新密码" style="font-size: 12px;">
+				</div>
+				<span id="onePasswordMsg" style="font-size: 10px;text-align: center;display: block;color: red;">&nbsp;</span>
+				<div class="mui-input-row" style="margin-top: 20px;">
+					<label><span class="mui-icon mui-icon-locked"></span></label>
+					<input id='twoPassword' type="password" oninput="if(value.length>16) value=value.slice(0,16)" class="mui-input-clear mui-input" placeholder="请再次输入新密码" style="font-size: 12px;">
+				</div>
+				<span id="twoPasswordMsg" style="font-size: 10px;text-align: center;display: block;color: red;">&nbsp;</span>
+			</form>
+			<div class="mui-content-padded" style="width: 72%;margin: 20px auto;background: #f2f2f2;">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">提交</button>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			(function($, doc) {
+				$.init();
+
+				function sendSMS() {
+					mui.ajax({
+						url: api_url + 'my/user/sendSMS',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							mobile: document.getElementById("account").value,
+							type: 2
+						}),
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//跳转回调用的页面
+								mui.toast(data.message);
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				function forgetPwd() {
+					mui.ajax({
+						url: api_url + 'my/user/forgetPwd',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							mobile: document.getElementById("account").value,
+							password: document.getElementById("twoPassword").value,
+							sms: document.getElementById("sms").value
+						}),
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//跳转回调用的页面
+								mui.toast(data.message);
+								mui.back();
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				function checkMobile() {
+					mui.ajax({
+						url: api_url + 'my/user/checkMobile',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							mobile: document.getElementById("account").value
+						}),
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//跳转回调用的页面
+								mui.toast(data.message);
+								document.getElementById("accountMsg").innerHTML = data.message;
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				function checkMobileF() {
+					var mobile = document.getElementById("account").value;
+					var reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+					if(mobile.length != 11) {
+						document.getElementById("accountMsg").innerHTML = "手机号长度为11位";
+						return false;
+					} else {
+						document.getElementById("accountMsg").innerHTML = "&nbsp;";
+					}
+					if(!reg.test(mobile)) {
+						document.getElementById("accountMsg").innerHTML = "请输入合法的手机号";
+						return false;
+					} else {
+						document.getElementById("accountMsg").innerHTML = "&nbsp;";
+						checkMobile();
+					}
+					return true;
+				}
+
+				function checkOnePassword() {
+					var onePwd = document.getElementById("onePassword").value;
+					var twoPwd = document.getElementById("twoPassword").value;
+					if(onePwd == "" || onePwd.length == 0) {
+						document.getElementById("onePasswordMsg").innerHTML = "密码不能为空";
+						return false;
+					} else {
+						document.getElementById("onePasswordMsg").innerHTML = "&nbsp;";
+					}
+					if(onePwd.length < 6 || onePwd.length > 16) {
+						document.getElementById("onePasswordMsg").innerHTML = "密码长度为6~16位";
+						return false;
+					} else {
+						document.getElementById("onePasswordMsg").innerHTML = "&nbsp;";
+					}
+					if(document.getElementById("twoPasswordMsg").innerHTML == "两次密码输入不一致") {
+						if(onePwd != twoPwd) {
+							document.getElementById("onePasswordMsg").innerHTML = "两次密码输入不一致";
+							document.getElementById("twoPasswordMsg").innerHTML = "两次密码输入不一致";
+						} else {
+							document.getElementById("onePasswordMsg").innerHTML = "&nbsp;";
+							document.getElementById("twoPasswordMsg").innerHTML = "&nbsp;";
+						}
+					}
+					return true;
+				}
+
+				function checkTwoPassword() {
+					var onePwd = document.getElementById("onePassword").value;
+					var twoPwd = document.getElementById("twoPassword").value;
+					if(twoPwd == "" || twoPwd.length == 0) {
+						document.getElementById("twoPasswordMsg").innerHTML = "密码不能为空";
+						return false;
+					} else {
+						document.getElementById("twoPasswordMsg").innerHTML = "&nbsp;";
+					}
+					if(twoPwd.length < 6 || twoPwd.length > 16) {
+						document.getElementById("twoPasswordMsg").innerHTML = "密码长度为6~16位";
+						return false;
+					} else {
+						document.getElementById("twoPasswordMsg").innerHTML = "&nbsp;";
+					}
+					if(onePwd != twoPwd) {
+						document.getElementById("onePasswordMsg").innerHTML = "两次密码输入不一致";
+						document.getElementById("twoPasswordMsg").innerHTML = "两次密码输入不一致";
+						return false;
+					} else {
+						document.getElementById("onePasswordMsg").innerHTML = "&nbsp;";
+						document.getElementById("twoPasswordMsg").innerHTML = "&nbsp;";
+					}
+					return true;
+				}
+
+				//验证手机号
+				document.getElementById("account").onkeyup = function() {
+					checkMobileF();
+				}
+				//验证第一次输入密码
+				document.getElementById("onePassword").onkeyup = function() {
+					checkOnePassword();
+				}
+				//验证第二次输入密码
+				document.getElementById("twoPassword").onkeyup = function() {
+					checkTwoPassword();
+				}
+				//点击发送验证码
+				document.getElementById("btn").addEventListener('tap', function() {
+					sendSMS();
+					settime(this);
+				});
+				//点击提交
+				document.getElementById("reg").addEventListener('tap',
+					function() {
+						var mobile = checkMobileF();
+						var onePassword = checkOnePassword();
+						var twoPassword = checkTwoPassword();
+						alert(mobile);
+						alert(onePassword);
+						alert(twoPassword);
+						if(mobile == true && onePassword == true && twoPassword == true) {
+							forgetPwd();
+						} else {
+							if(mobile == false) {
+								checkMobileF();
+							}
+							if(onePassword == false) {
+								checkOnePassword();
+							}
+							if(twoPassword == false) {
+								checkTwoPassword();
+							}
+						}
+					});
+
+				//获取验证码
+				var countdown = 60;
+
+				function settime(val) {
+					if(countdown == 0) {
+						val.removeAttribute("disabled");
+						val.value = "获取验证码";
+						countdown = 60;
+					} else {
+						val.setAttribute("disabled", true);
+						val.value = "重新发送(" + countdown + ")";
+						countdown--;
+						setTimeout(function() {
+							settime(val)
+						}, 1000)
+					}
+				}
+
+				$.plusReady(function() {
+					var sendButton = doc.getElementById('sendMail');
+					var emailBox = doc.getElementById('email');
+					sendButton.addEventListener('tap', function() {
+						app.forgetPassword(emailBox.value, function(err, info) {
+							plus.nativeUI.toast(err || info);
+						});
+					}, false);
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

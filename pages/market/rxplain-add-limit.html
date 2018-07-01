@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				border: 3px solid #E1B080;
+			}
+			
+			.logo {
+				width: 40%;
+				margin: 10px auto;
+				text-align: center;
+			}
+			
+			.logo img {
+				width: 50%;
+
+			}
+			
+			.why {
+				width: 80%;
+				font-size: 18px;
+				display: block;
+				margin: 0 auto;
+				color: #E1B080;
+				text-align: center;
+
+			}
+			
+			.text {
+				width: 90%;
+				margin: 0 auto;
+				display: block;
+				margin-top: 10px;
+				font-size: 14px;
+				line-height: 25px;
+				text-indent: 40px;
+				color: #999;
+				border-top: 2px solid #ddd;
+				padding-bottom: 10px;
+			}
+			
+			.mui-icon-back:before,
+			.mui-icon-left-nav:before {
+				content: '';
+			}
+			
+			.mui-pull-left {
+				position: fixed;
+				top: 5px;
+				right: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left  cef">&times;</a>
+
+		<div class="logo">
+			<img src="../../images/logo.png" />
+		</div>
+		<div>
+			<span class="why">什么是触发止盈点数</span>
+			<span class="text">行情每波动一次（波动一次计为一点），您的持仓收益都会相应的增加或减少。设定一个您理想的收益点数，当行情向盈利方向波动的数值达到这个点数时，系统将自动帮您以市价平仓及时锁定盈利。注意：触发盈利后的平仓价格并不一定与您设定的价格完全一致。</span>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

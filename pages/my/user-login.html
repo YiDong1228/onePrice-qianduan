@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+		<style>
+			body {
+				background: #f2f2f2;
+			}
+			
+			img {
+				width: 20%;
+				margin: 30px auto;
+				display: block;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.name {
+				font-size: 24px;
+				text-align: center;
+			}
+			
+			.mui-input-group:before,
+			.mui-input-group:after {
+				height: 0px;
+			}
+			
+			.mui-input-group {
+				background: #f2f2f2;
+			}
+			
+			.mui-input-group .mui-input-row:after {
+				right: 15px;
+				background: #000;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 40px;
+				width: 80%;
+				margin: 0 auto;
+			}
+			
+			.mui-btn-primary {
+				border: 1px solid #E1B080;
+				background-color: #E1B080;
+			}
+			
+			a {
+				color: #E1B080;
+			}
+			.back{
+				position: absolute;
+				right: 16px;
+				top: 16px;
+				font-size: 33px;
+				color: #ccc; 
+			}
+			.mui-icon-back:before, .mui-icon-left-nav:before{
+				content: ' ';
+			}
+			.mui-content{
+				background: #f2f2f2;
+			}
+			.mui-btn-primary:enabled:active {
+				border: 1px solid #E1B080;
+				background-color: #E1B080;
+			}
+			a:active{
+				color:#E1B080 ;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back">&times;</a>
+		<img src="../../images/logo.png" />
+		<div class="name">
+			东港通
+		</div>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label><span class="mui-icon mui-icon-phone"></span></label>
+					<input id='account' type="number" oninput="if(value.length>11) value=value.slice(0,11)" class="mui-input-clear mui-input" placeholder="请输入手机号" maxlength="11" style="font-size: 12px;" value="17717574107">
+				</div>
+				<span id="accountMsg" style="font-size: 10px;text-align: center;display: block;color: red;">&nbsp;</span>
+				<div class="mui-input-row" style="margin-top: 20px;">
+					<label><span class="mui-icon mui-icon-locked"></span></label>
+					<input id='password' type="password" oninput="if(value.length>16) value=value.slice(0,16)" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16"  style="font-size: 12px;" value="123123">
+				</div>
+				<span id="passwordMsg" style="font-size: 10px;text-align: center;display: block;color: red;">&nbsp;</span>
+			</form>
+
+			<div class="mui-content-padded" style="width: 72%;margin: 20px auto;">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a id='reg'>注册账号</a> <span class="spliter">|</span>
+					<a id='forgetPassword'>忘记密码</a>
+				</div>
+			</div>
+
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+
+					var mainPage = plus.webview.getWebviewById("main-index");
+
+					var toMain = function() {
+						$.fire(mainPage, 'show', null);
+						mainPage.show("pop-in");
+					};
+
+					//检查 "登录状态/锁屏状态" 结束
+					var loginButton = doc.getElementById('login');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var regButton = doc.getElementById('reg');
+					var forgetButton = doc.getElementById('forgetPassword');
+					loginButton.addEventListener('tap', function(event) {
+						
+						
+						//var users = JSON.parse(localStorage.getItem('$users') || '[]');
+						//alert(localStorage.getItem('$user'));
+						
+						var loginInfo = { 
+							user_id:"",
+							token:"",
+							account: accountBox.value,
+							password: passwordBox.value
+						};
+						
+						if (loginInfo.account.length != 11) {
+							plus.nativeUI.toast('请正确输入手机号');
+						}else if (loginInfo.password.length < 6 ||loginInfo.password.length > 16) {
+							plus.nativeUI.toast('请输入6~16位密码');
+						}else{
+							
+							mui.ajax({
+								url: api_url + 'my/user/login',
+								type: 'post',
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								processData: false,
+								data: JSON.stringify({
+									mobile: loginInfo.account,
+									password: loginInfo.password
+								}),
+		
+								success: function(data) {
+									//请求成功时
+									if(data.code == 200) {
+										//获取data中数据
+										var obj = eval(data.data);
+										
+										//alert(JSON.stringify(data)) 
+										 
+										  
+										var userInfo = { 
+											userId:data.data.userId,
+											token:data.data.token
+										};
+										localStorage.setItem('$user', JSON.stringify(userInfo));
+										
+										//跳转回调用的页面
+										mui.back();
+										
+										
+										mui.toast(data.message);
+									} else {
+										//错误信息打印
+										mui.toast(data.message);
+									}
+		  
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(type);
+								}
+							});
+							
+						}
+						
+					});
+
+					regButton.addEventListener('tap', function(event) {
+
+						$.openWindow({
+							url: 'user-reg.html',
+							id: 'user-reg',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					forgetButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'user-forgetpwd.html',
+							id: 'user-forgetpwd',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					//
+					
+
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

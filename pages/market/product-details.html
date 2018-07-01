@@ -1,0 +1,1184 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="format-detection" content="telephone = no" />
+		<meta name="msapplication-tap-highlight" content="no" />
+		<meta name="viewport" content="user-scalable = no, initial-scale = 1, maximum-scale = 1, minimum-scale = 1, width = device-width" />
+		<link rel="stylesheet" type="text/css" href="css/kxian.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<title>详情</title>
+		<style type="text/css">
+			.check {
+				position: fixed;
+				top: 86%;
+				right: 10px;
+				display: block;
+				color: #007AFF;
+			}
+			
+			header {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+			}
+			
+			.f13 {
+				font-size: 13px;
+			}
+			
+			.mt1 {
+				margin-top: 1px;
+			}
+			
+			.f20 {
+				font-size: 20px;
+				color: #EFEFEF;
+			}
+			
+			.z9 {
+				z-index: 99999999999;
+			}
+			
+			.fanhui {
+				width: 35px;
+				height: 35px;
+				position: absolute;
+				left: 10px;
+				top: 10px;
+				z-index: 999999999;
+			}
+			
+			.fanhui img {
+				width: 100%;
+			}
+			
+			.trade-chart .chart-type span {
+				padding: 0px 7px;
+			}
+			
+			.l20 {
+				line-height: 20px;
+			}
+			
+			.l18 {
+				line-height: 18px;
+			}
+			
+			.p15 {
+				padding-bottom: 30px;
+				border-bottom: 1px solid #999999;
+			}
+			
+			#bg {
+				display: none;
+				position: absolute;
+				top: 0%;
+				left: 0%;
+				width: 100%;
+				height: 100%;
+				background-color: black;
+				z-index: 9999999998;
+				-moz-opacity: 0.3;
+				opacity: .30;
+				filter: alpha(opacity=30);
+			}
+			
+			#shade1 {
+				display: none;
+				position: absolute;
+				top: 0%;
+				left: 0%;
+				width: 100%;
+				height: 100%;
+				background-color: black;
+				z-index: 999999999999999999999;
+				-moz-opacity: 0.3;
+				opacity: .3;
+				filter: alpha(opacity=30);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="fanhui" onclick="back();">
+			<img src="../../images/jiantou.png" />
+		</div>
+		<header>
+
+			<div class="tc">
+				<div class="f18 mt-15" id="name">
+					&nbsp;
+				</div>
+
+				<div class="f12">
+					<span id="tradeStatus">&nbsp;</span>
+				</div>
+			</div>
+		</header>
+
+		<div style="position: relative;width: 100%;height:63px;"></div>
+		<div class="tixing" id="warning">
+			<img src="../../images/naozhong.png" />
+		</div>
+
+		<div class="section01 w100" style="font-size:14px !important;">
+			<div class="sec_top hidden w100" style="padding: 0px 0px 0px 0px;">
+				<div class="top_child1 w35 fl">
+					<div class="colorGreen f30 line-2 mt5" id="lastPrice">&nbsp;</div>
+					<input id="code" type="hidden" value="" />
+					<input id="system_type" type="hidden" value="" />
+					<div class="colorGreen"><span class="inline_block mr10 mt10" id="upsDowns">&nbsp;</span><span id="changeCount">&nbsp;</span></div>
+				</div>
+				<div class="top_child2 w60 fl hidden color999 f13 mt1">
+					<div class="w50 fl">
+						<div>最高<span class="inline_block ml10 colorGreen" id="high">&nbsp;</span></div>
+						<div class="mt5">最低<span class="inline_block ml10 colorGreen" id="low">&nbsp;</span></div>
+						<div class="mt5">波动<span class="inline_block ml10 color_ef" id="undulate">&nbsp;</span></div>
+					</div>
+					<div class="wi40 fr pl11">
+						<div>今开<span class="inline_block ml10 colorGreen" id="open">&nbsp;</span></div>
+						<div class="mt5">昨收<span class="inline_block ml10 color_ef" id="close">&nbsp;</span></div>
+						<div class="mt5">涨速<span class="inline_block ml10 color_ef" id="velocity">&nbsp;</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div style="margin-bottom: 2px;">
+			<div class="mm">
+				<div class="mm1">
+					<span class="f10 cgre"><div class="fl l20" id="bp">&nbsp;</div><div class="bk-r fl f10">买入</div></span>
+					<span class="f10 cred fr"><div class="fr l18" id="sp">&nbsp;</div><div class="fl bk-g">卖出</div></span>
+				</div>
+			</div>
+
+			<div class="inp tc ">
+				<input type="text" id="aa" value="" disabled="disabled" /> 交易量
+				<input type="text" id="bb" value="" disabled="disabled" />
+			</div>
+
+			<div class="num">
+				<div id="num1">
+					&nbsp;
+				</div>
+				<div id="num2">
+					<div style="float: right;">
+						&nbsp;
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="foot w100 z9" style="position: fixed;bottom: 0px;left: 0px;" id="mai">
+			<div class="w20 fl bgcolor_gre h100">
+				<div class="fast_buy bgBox"></div>
+				<div class="f10 tc c_f" id="lightning-gray">闪电交易</div>
+			</div>
+			<div class="w40 fl buy_btn tc bgcolor_red f18" id="maiz">买涨</div>
+			<div class="w40 fl buy_btn tc bgcolor_blu f18" id="maid">买跌</div>
+		</div>
+
+		<div class="foot w100  z9" style="position: fixed;bottom: 0px;left: 0px;display:none;" id="shanmai">
+			<div class="w20 fl bgcolor_gre h100">
+				<div class="iconfocus bgBox"></div>
+				<div class="f10 tc c_y" id="lightning-yellow">闪电交易</div>
+			</div>
+			<div class="w40 fl buy_btn tc bgcolor_red f18">闪电买涨</div>
+			<div class="w40 fl buy_btn tc bgcolor_blu f18">闪电买跌</div>
+		</div>
+		<!--遮罩-->
+
+		<div id="bg"></div>
+		<!--购买弹出框-->
+		<div class="order w100 color666 borderbox" id="yincang" style="display: none;">
+			<h1 class="guanbi" id="guanbi">&times;</h1>
+			<div class="pro_item f10 borderbox">
+				<div id="shuoming1">14:29自动平仓，涨10个点，赚10港币</div>
+				<div id="shuoming2" class="mt5">当前汇率：1港币=0.90人民币</div>
+			</div>
+
+			<div class="pro_price borderbox">
+				<div>开仓价<span id="jiage" class="inline_block chengse fr">0</span></div>
+			</div>
+			<div class="pro_count">
+				<div class="order_count hidden mb15  p30">
+					<div class="w30 fl">交易数量</div>
+					<div class="w70 fl hidden tc">
+						<div value="10" class="count_btn ml10 fr li">10手</div>
+						<div value="5" class="count_btn ml10 fr li">5手</div>
+						<div value="3" class="count_btn ml10 fr li">3手</div>
+						<div value="2" class="count_btn ml10 fr li">2手</div>
+						<div value="1" class="count_btn fr hand li">1手</div>
+					</div>
+				</div>
+				<div class="pro_point hidden f12 borderbox">
+					<div class="w50 fl point_left">
+						<div>触发止损点数
+							<span class="que_icon inline_block tc" id="icon1" onclick="loss">?</span>
+							<div id="a1" class="absolute mtk">
+								<h2 id="b1">&times;</h2>
+							</div>
+							<span class="set_po inline_block"  id="selectZS">
+								<input  id="inputZS" class="point_input" readonly="readonly"/>
+							</span>
+							
+						</div>
+						<div>触发止盈点数
+							<span class="que_icon inline_block tc" id="icon2" onclick="add()">?</span>
+							<div id="a2" class="absolute mtk">
+								<h2 id="b2">&times;</h2>
+							</div>
+							<span  id="selectZY" class="set_po inline_block">
+								<input id="inputZY" class="point_input" readonly="readonly"/>
+							</span>
+						</div>
+					</div>
+					<div class="w50 fl borderbox point_right">
+						<div>触发止损金额
+							<span class="que_icon inline_block tc" id="icon3" onclick="lossSet()">?</span>
+							<div id="a3" class="absolute mtk">
+								<h2 id="b3">&times;</h2>
+							</div>
+							<span id="zhisunje" class="colorGreen f12">--</span>
+						</div>
+						<div>触发止盈金额
+							<span class="que_icon inline_block tc" id="icon4" onclick="addSet()">?</span>
+							<div id="a4" class="absolute mtk">
+								<h2 id="b4">&times;</h2>
+							</div> 
+							<span id="zhiyingje" class="set_po inline_block">--</span>
+						</div>
+					</div>
+				</div>
+				<div class="foc" style="margin-left: -30px;">
+					<label><input type="radio" name="iszhiying_radio"  value="1" checked="checked"><span class="pa1">触发止盈</span></label>
+					<label class="label"><input type="radio" name="iszhiying_radio" value="0"><span class="pa1">不触发止盈</span></label>
+				</div>
+				<div class="cover wz0">
+					<span class="que_icon inline_block tc" id="icon5" onclick="breakEven()">?</span>
+					
+					<div class="wz1">
+						<span class="inline_block">移动点数</span>
+						<span id="selectYD"  class="set_po inline_block mr10">
+							<input id="inputYD" class="point_input" readonly="readonly"/>
+						</span>
+						<span class="inline_block">保本点数</span>
+						<span id="selectBB" class="set_po inline_block">
+							<input id="inputBB" class="point_input" readonly="readonly"/>
+						</span>
+					</div>
+				</div>
+				<div class="balance">
+					<span class="inline_block mr10">当前余额</span>
+					<span class="f12 colororange">1.00元</span>
+					<span class="inline_block fr recharge f12">去充值</span>
+				</div>
+				<div class="total f12">
+					<span>开仓费用<span id="jiaoyifei">0</span>+保证金 <span id="baozhengjin">0</span>=</span>
+					<span  class="colorred">合计<span id="heji">0</span></span>
+					<div class="btnBox mt30">
+						<div class="bgchengse color_ef br5 tc f15" id="maidi">确定买涨</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="trade-chart">
+			<div class="chart-type">
+				<span class="trend">分时</span>
+				<span class="k" data-type="min,1">1分</span>
+				<span class="k" data-type="min,5">5分</span>
+				<span class="k" data-type="min,15">15分</span>
+				<span class="k" data-type="min,30">30分</span>
+				<span class="k" data-type="min,60">60分</span>
+				<span class="k" data-type="min,120">120分</span>
+				<span class="k" data-type="day">日K</span>
+			</div>
+
+			<div class="chart-container">
+				<span class="switch"></span>
+
+				<canvas class="chart"></canvas>
+				<canvas class="detail"></canvas>
+			</div>
+
+			<div class="detail-container">
+				<div class="data-detail trend">
+					<span class="time" data-title="时间：">--</span>
+					<span class="price" data-title="价格：">--</span>
+					<span class="avgPrice" data-title="均价：">--</span>
+					<span class="volume" data-title="成交量：">--</span>
+				</div>
+				<div class="data-detail k">
+					<span class="time" data-title="时间：">--</span>
+					<span class="open-price" data-title="开盘价：">--</span>
+					<span class="high-price" data-title="最高价：">--</span>
+					<span class="low-price" data-title="最低价：">--</span>
+					<span class="close-price" data-title="收盘价：">--</span>
+					<span class="volume" data-title="成交量：">--</span>
+					<span class="amount" data-title="涨跌：">--</span>
+					<span class="percentage" data-title="涨跌幅：">--</span>
+				</div>
+			</div>
+		</div>
+		<a class="check" id="check" code="" system_type="">点击查看规则>></a>
+		<div id="shade1"></div>
+		
+
+		<script type="text/javascript" src="js/plugin/hammer.min.js"></script>
+		<script type="text/javascript" src="js/plugin/trade-chart.1.0.0B1-201805051710.min.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/util.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/define.chartState.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/define.trendChartDataManager.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/define.trendChart.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/define.kChartDataManager.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/define.kChart.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/init.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/action.trendChart.view-detail.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/action.kChart.view-detail.js"></script>
+		<script type="text/javascript" src="js/main/trade-chart/action.js"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppickerDIYZS.js"></script>
+		<script src="../../js/mui.poppickerDIYZY.js"></script>
+		<script src="../../js/mui.poppickerDIYYD.js"></script>
+		<script src="../../js/mui.poppickerDIYBB.js"></script>
+		
+		<script type="text/javascript">
+			
+			
+			var token = "token";
+			var userId = 3;
+			var code='';
+			var code_show='';//合约代码
+			
+			
+			var iszhangdie=0;  //买卖方向（'0':买涨、'1':买跌） 
+			
+			var handnum=1; //选择了买几手
+			var defaultPoints=0;//默认点数
+			var volatilityPrice=0;//波动价格
+			var exchangerate=0;//汇率
+			var singleDefaultMargin=0;//单笔默认保证金
+			var singleTransactionCosts=0;//单笔交易费用
+			
+			var zhisunje=0; 	//触发的止损金额
+			var zhiyingje=0;	//触发的止盈金额
+			var baozhengjing=0; //保证金
+			
+			var zhisunje_num=0; 	//触发的止损点数
+			var zhiyingje_num=0;	//触发的止盈点数
+		
+			var yidongje=0;	//移动盈利点数
+			var baobenje=0;	//保本盈利点数
+			
+			var yidongje_num=0;	//移动点数
+			var baobenje_num=0;	//保本点数 
+		
+			var jiaoyifei=0; //开仓费用
+			var heji=0; //合计
+			
+			var system_type=0; //1:内盘 2:外盘
+			
+			function Kxian(code) {
+				//alert(code);
+				(function() {
+					Date.prototype.Format = function(fmt) {
+						var o = {
+							"M+": this.getMonth() + 1, //月份
+							"d+": this.getDate(), //日
+							"H+": this.getHours(), //24小时
+							"h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //12小时
+							"m+": this.getMinutes(), //分
+							"s+": this.getSeconds(), //秒
+							"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+							"S": this.getMilliseconds() //毫秒
+						};
+						if(/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+						for(var k in o)
+							if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+						return fmt;
+					};
+
+					var chartState = window.chartState;
+					chartState.setCurrentSymbol(code);
+				})();
+			}
+ 
+			//mui初始化
+			(function($) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+				
+				
+				
+				
+				//进度条
+				function wang() {
+					var _num1 = document.getElementById("num1");
+					var _num2 = document.getElementById("num2");
+					var _a = document.getElementById("aa").value;
+					var _b = document.getElementById("bb").value;
+					var _c = (_a * 1) + (_b * 1)
+					var _sum1 = (_a / _c * 100).toFixed(2) + "%";
+					var _sum2 = (_b / _c * 100).toFixed(2) + "%";
+					_num1.style.width = _sum1;
+					_num2.style.width = _sum2;
+					_num1.innerHTML = _sum1;
+					_num2.innerHTML = _sum2;
+				}
+
+				//买涨弹出框 
+				function floatWebview() {
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("rule.html", "rule.html", {
+						width: '230px',
+						height: '400px',
+						margin: "auto",
+						background: "rgba(0,0,0,0.5)",
+						scrollIndicator: 'none',
+						scalable: false,
+						popGesture: 'none'
+					});
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				}
+
+				//产品详情接口
+				function getMarketDetail(code, token, userId) {
+
+					mui.ajax({
+						url: api_url + 'market/getDetail',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: code,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								//获取后台数据替换页面中数值
+								document.getElementById("lastPrice").innerHTML = obj.lastPrice;
+								document.getElementById("upsDowns").innerHTML = obj.upsDowns;
+								document.getElementById("changeCount").innerHTML = obj.changeCount + "%";
+								document.getElementById("high").innerHTML = obj.high;
+								document.getElementById("low").innerHTML = obj.low;
+								document.getElementById("undulate").innerHTML = obj.undulate;
+								document.getElementById("open").innerHTML = obj.open;
+								document.getElementById("close").innerHTML = obj.close;
+								document.getElementById("velocity").innerHTML = obj.velocity;
+								document.getElementById("bp").innerHTML = obj.bp;
+								document.getElementById("sp").innerHTML = obj.sp;
+								document.getElementById("aa").value = obj.bv;
+								document.getElementById("bb").value = obj.sv;
+
+								//填充交易窗口数据
+								document.getElementById("jiage").innerHTML = obj.lastPrice;
+								//调用进度条
+								wang();
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				//产品状态规则接口
+				function getMarketStatusAndRule(code, token, userId) {
+					mui.ajax({
+						url: api_url + 'market/getStatusAndRule',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: code,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								//获取后台数据替换页面中数值
+								document.getElementById("tradeStatus").innerHTML = obj.tradeStatus;
+
+								//console.log(JSON.stringify(obj));
+								document.getElementById("shuoming1").innerHTML = obj.shuoming1;
+								document.getElementById("shuoming2").innerHTML = obj.shuoming2;
+
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+   
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+
+				//产品交易计算规则接口
+				function getTradingRule(code, token, userId) {
+					mui.ajax({
+						url: api_url + 'trader/getTradingRule',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: code,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								//获取后台数据替换页面中数值
+								//alert(obj.defaultPoints) ;
+								
+								volatilityPrice=obj.volatilityPrice;//波动价格
+								exchangerate=obj.exchangerate;//汇率
+								singleDefaultMargin=obj.singleDefaultMargin;//单笔默认保证金
+								singleTransactionCosts=obj.singleTransactionCosts;//单笔交易费用
+		
+								defaultPoints=obj.defaultPoints; //计算规则默认点数
+								var max_points_zs=defaultPoints*4;    //止损最大点数
+								var max_points_zy=defaultPoints*8;  //止盈最大点数
+								  
+								
+								//设置止损止盈默认点数和金额和保证金
+								
+								zhisunje_num=defaultPoints; 	//触发的止损点数
+								zhiyingje_num=defaultPoints;	//触发的止盈点数
+								
+								
+								document.getElementById("inputZS").value=zhisunje_num;
+								
+								//设置触发止损金额 =触发止损点数*交易数量*波动价值*汇率
+								zhisunje=zhisunje_num*handnum*volatilityPrice*exchangerate;
+								document.getElementById("zhisunje").innerText="-"+zhisunje;
+								
+								//如果  触发止损点数  等于  默认点数    则   保证金=单笔默认保证金*交易数量
+								baozhengjing=singleDefaultMargin*handnum;
+								document.getElementById("baozhengjin").innerText=baozhengjing;
+										 
+								//设置止盈默认点数和金额		
+								document.getElementById("inputZY").value=zhiyingje_num;
+				 
+								//设置触发止盈金额=触发止盈点数*交易数量*波动价值*汇率
+								zhiyingje=zhiyingje_num*handnum*volatilityPrice*exchangerate;
+								document.getElementById("zhiyingje").innerText=zhiyingje;
+								 
+								//开仓费用=单笔交易费用*交易数量
+								jiaoyifei=singleTransactionCosts*handnum;
+								document.getElementById("jiaoyifei").innerText=jiaoyifei;
+								 
+								 
+								 
+								
+								//初始化止损点数选择器
+								var pickerZS = new $.PopPickerZS();
+								var zsdianshu=[{value: '5',text: '5'}];
+								for (var i = 10; i <= max_points_zs; i=i+5) {
+									var item = { value: i, text: i };
+									zsdianshu.push(item); 
+								} 
+								pickerZS.setData(zsdianshu);
+								var showPickerButtonZS = document.getElementById('selectZS');
+								showPickerButtonZS.addEventListener('tap', function(event) {
+									document.getElementById('shade1').style.display = "block";
+									
+									document.getElementById('zyje1').innerText =zhiyingje;
+									
+									pickerZS.show(function(items) {
+										//alert(JSON.stringify(items[0]));
+										//alert(handnum);
+										//显示遮罩
+										document.getElementById('shade1').style.display = "none";
+										
+										zhisunje_num=items[0].value;
+										document.getElementById("inputZS").value=zhisunje_num;
+										 
+										
+										//设置触发止损金额 =触发止损点数*交易数量*波动价值*汇率
+										zhisunje=zhisunje_num*handnum*volatilityPrice*exchangerate;
+										document.getElementById("zhisunje").innerText="-"+zhisunje;
+					
+					
+										//如果  触发止损点数  小于等于  默认点数    则   保证金=单笔默认保证金*交易数量
+										if(zhisunje_num<=defaultPoints){
+											baozhengjing=singleDefaultMargin*handnum;
+											document.getElementById("baozhengjin").innerText=baozhengjing;
+										}
+										//如果  触发止损点数  大于  默认点数           则       保证金=触发点数/默认点数*单笔默认保证金*交易数量
+										else if(zhisunje_num>defaultPoints){
+											baozhengjing=(zhisunje_num/defaultPoints)*singleDefaultMargin*handnum;
+											document.getElementById("baozhengjin").innerText=baozhengjing;
+										}
+					
+								
+					
+										//合计= 开仓费用+保证金
+										heji=jiaoyifei+baozhengjing;
+										document.getElementById("heji").innerText=heji;  
+										
+										//返回 false 可以阻止选择框的关闭
+										//return false;
+									});
+									
+									
+								}, false);
+								
+								      
+								 
+								//初始化止盈点数选择器
+								var pickerZY = new $.PopPickerZY();
+								var zydianshu=[{value: '5',text: '5'}];
+								for (var i = 10; i <= max_points_zy; i=i+5) {
+									var item = { value: i, text: i };
+									zydianshu.push(item); 
+								}
+								pickerZY.setData(zydianshu);
+								var showPickerButtonZY = document.getElementById('selectZY');
+								showPickerButtonZY.addEventListener('tap', function(event) {
+									document.getElementById('shade1').style.display = "block";
+									
+									document.getElementById('zsje1').innerText =zhisunje;
+									document.getElementById('bzj1').innerText =baozhengjing;
+									 
+									pickerZY.show(function(items) {
+										//alert(JSON.stringify(items[0]));
+										//alert(handnum); 
+										//显示遮罩
+										document.getElementById('shade1').style.display = "none";
+										
+										zhiyingje_num=items[0].value;
+										document.getElementById("inputZY").value=zhiyingje_num;
+										 
+										 
+										//设置触发止盈金额=触发止盈点数*交易数量*波动价值*汇率
+										zhiyingje=zhiyingje_num*handnum*volatilityPrice*exchangerate;
+										document.getElementById("zhiyingje").innerText=zhiyingje;
+										
+										   
+					
+										//返回 false 可以阻止选择框的关闭
+										//return false;
+									});
+									
+								}, false);
+								
+								
+								
+								//初始化移动点数选择器
+								var pickerYD = new $.PopPickerYD();
+								var yddianshu=[{value: '5',text: '5'}];
+								for (var i = 10; i <= max_points_zy; i=i+5) {
+									var item = { value: i, text: i };
+									yddianshu.push(item); 
+								}
+								pickerYD.setData(yddianshu);
+								var showPickerButtonYD = document.getElementById('selectYD');
+								showPickerButtonYD.addEventListener('tap', function(event) {
+									//显示遮罩
+									document.getElementById('shade1').style.display = "block";
+									document.getElementById('baobenje1').innerText =baobenje;
+								
+									pickerYD.show(function(items) {
+										//alert(JSON.stringify(items[0]));
+										//alert(handnum); 
+										//隐藏遮罩
+										document.getElementById('shade1').style.display = "none";
+										
+										yidongje_num=items[0].value;
+										document.getElementById("inputYD").value=yidongje_num;
+
+										//设置移动止盈金额=移动点数*交易数量*波动价值*汇率
+										yidongje=yidongje_num*handnum*volatilityPrice*exchangerate;
+
+										//返回 false 可以阻止选择框的关闭
+										//return false;
+									});
+									
+								}, false);
+								 
+								 
+								 
+								
+								//初始化保本点数选择器
+								var pickerBB = new $.PopPickerBB();
+								var bbdianshu=[{value: '5',text: '5'}];
+								for (var i = 10; i <= max_points_zy; i=i+5) {
+									var item = { value: i, text: i };
+									bbdianshu.push(item); 
+								}
+								pickerBB.setData(bbdianshu);
+								var showPickerButtonBB = document.getElementById('selectBB');
+								showPickerButtonBB.addEventListener('tap', function(event) {
+									//显示遮罩
+									document.getElementById('shade1').style.display = "block";
+									document.getElementById('yidongje1').innerText =yidongje;
+								
+									pickerBB.show(function(items) {
+										//alert(JSON.stringify(items[0]));
+										//alert(handnum); 
+										//隐藏遮罩
+										document.getElementById('shade1').style.display = "none";
+										
+										baobenje_num=items[0].value;
+										document.getElementById("inputBB").value=baobenje_num;
+
+										//设置保本止盈金额=保本点数*交易数量*波动价值*汇率
+										baobenje=baobenje_num*handnum*volatilityPrice*exchangerate;
+ 
+										//返回 false 可以阻止选择框的关闭
+										//return false;
+									});
+									
+								}, false);
+								 
+								
+
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+				
+				
+				
+				//报单操作
+				document.getElementById("maidi").addEventListener('tap', function() {
+					
+					
+
+					console.log("code="+code);
+					console.log("token="+token);
+					console.log("userId="+userId);
+					console.log("handnum="+handnum);//选择了买几手
+					console.log("zhisunje="+zhisunje);//触发的止损金额
+					console.log("zhiyingje="+zhiyingje);//触发的止盈金额
+					
+					console.log("baozhengjing="+baozhengjing);//保证金
+					console.log("zhisunje_num="+zhisunje_num);//触发的止损点数
+					console.log("zhiyingje_num="+zhiyingje_num);//触发的止盈点数
+					console.log("yidongje="+yidongje);//移动盈利金额
+					console.log("baobenje="+baobenje);//保本盈利金额
+
+					console.log("yidongje_num="+yidongje_num);//移动点数
+					console.log("baobenje_num="+baobenje_num);//保本点数
+					
+					
+					var isMoveBreakEven=0;
+					if(yidongje_num!="--"){
+						isMoveBreakEven=1
+					}
+					console.log("isMoveBreakEven="+isMoveBreakEven); //是否移动保本（0:否、1:是）  
+					
+			
+			        var limitPrice=document.getElementById("jiage").innerHTML;
+					console.log("limitPrice="+limitPrice);//委托价格
+					
+					
+					var breakEvenSpreadPrice=0;
+					console.log("breakEvenSpreadPrice="+breakEvenSpreadPrice); //保本差价
+					
+					var moveSpreadPrice=0;
+					console.log("moveSpreadPrice="+moveSpreadPrice); //移动差价
+					
+					var profitSpreadPrice=0;
+					console.log("profitSpreadPrice="+profitSpreadPrice); //止盈差价
+					
+					var stopSpreadPrice=0;
+					console.log("stopSpreadPrice="+stopSpreadPrice); //止损差价
+			       
+			
+					console.log("jiaoyifei="+jiaoyifei);//开仓费用
+					console.log("heji="+heji);//合计
+					
+					console.log("system_type="+system_type);//1:内盘 2:外盘
+					
+					
+					var combOffsetFlag=0;
+					console.log("combOffsetFlag="+combOffsetFlag); //组合开平标志（'0':开仓、'1':平仓）
+					
+				
+					console.log("direction="+iszhangdie); //买卖方向（'0':买涨、'1':买跌）  
+					
+					
+					console.log("instrumentId="+code_show); //合约代码 
+					
+					
+					var isStop=1;
+					console.log("isStop="+isStop); //是否开启止损（0:否、1:是）
+				
+					
+					
+					var isProfit=document.querySelector('[name="iszhiying_radio"]:checked').value;
+					console.log("isProfit="+isProfit); //是否开启止盈（0:否、1:是） 
+					
+					
+					  
+					//api_url='http://192.168.0.105:8088/';
+					var w=plus.nativeUI.showWaiting("处理中，请等待...");
+					mui.ajax({
+						url: api_url + 'trader/postOrder',
+						type: 'post', 
+						headers: {
+							'Content-Type': 'application/json'
+						}, 
+						processData: false,
+						data: JSON.stringify({
+							code: code,
+							token: token,
+							userId: userId,
+							aggregate: heji,
+							breakEvenNum: baobenje_num,
+							breakEvenPrice: baobenje,
+							breakEvenSpreadPrice: breakEvenSpreadPrice,
+							combOffsetFlag: combOffsetFlag,
+							commission: jiaoyifei,
+							deposit: baozhengjing,
+							direction: iszhangdie,
+							innerOuterDisc: system_type,
+							instrumentId: code_show,
+							isMoveBreakEven: isMoveBreakEven,
+							isProfit: isProfit,
+							isStop: isStop,
+							limitPrice: limitPrice,
+							moveNum: yidongje_num,
+							movePrice: yidongje,
+							moveSpreadPrice: moveSpreadPrice,
+							profitNum: zhiyingje_num,
+							profitPrice: zhiyingje,
+							profitSpreadPrice: profitSpreadPrice,
+							stopNum: zhisunje_num,
+							stopPrice: zhisunje,
+							stopSpreadPrice: stopSpreadPrice, 
+							volumeTotalOriginal:handnum
+						}),
+
+						success: function(data) {
+							
+							w.close();
+							
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								
+								mui.toast(data.message);
+								
+ 
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+   
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+					
+					
+				});
+				
+				
+				
+				document.getElementById("warning").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "pre-warning.html",
+						id: "pre-warning",
+						extras: {
+							code: document.getElementById("code").value,
+							lastPrice: document.getElementById("lastPrice").innerHTML,
+							changeCount: document.getElementById("changeCount").innerHTML,
+							name: document.getElementById("name").innerHTML
+						}
+					});
+				});
+
+				mui('html').on('tap', '#check', function() {
+					mui.openWindow({
+						url: "product-rule.html",
+						id: "product-rule",
+						extras: {
+							code: document.getElementById("code").value,
+							system_type: document.getElementById("system_type").value
+						}
+					});
+				});
+
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					var name = self.name;
+					code = self.code;
+					Kxian(code);
+					
+					system_type = self.system_type;
+					code_show= self.code_show;
+					document.getElementById("code").value = code;
+					document.getElementById("system_type").value = system_type;
+					document.getElementById("name").innerHTML = name;
+					
+					getMarketDetail(code, token, userId, name);
+					getMarketStatusAndRule(code, token, userId);
+					getTradingRule(code, token, userId);
+					
+					
+				})
+
+				function Inter() {
+					mui.plusReady(function() {
+						var self = plus.webview.currentWebview();
+						var name = self.name;
+						var code = self.code;
+						getMarketDetail(code, token, userId, name);
+					})
+				}
+				
+				function Inter60() {
+					mui.plusReady(function() {
+						var self = plus.webview.currentWebview();
+						var name = self.name;
+						var code = self.code;
+						Kxian(code);
+						getMarketStatusAndRule(code, token, userId);
+						
+					})
+				} 
+
+				//定时器 每隔1秒刷新一次
+				setInterval(Inter, 1000);
+				
+				//定时器 每隔60秒刷新一次
+				setInterval(Inter60, 1000*60);
+				
+				//闪电交易的点击功能
+				document.getElementById("lightning-gray").onclick = function() {
+					document.getElementById("mai").style.display = "none";
+					document.getElementById("shanmai").style.display = "block";
+				}
+				document.getElementById("lightning-yellow").onclick = function() {
+					document.getElementById("mai").style.display = "block";
+					document.getElementById("shanmai").style.display = "none";
+				}
+				//买涨点击
+				document.getElementById("maiz").onclick = function() {
+					document.getElementById("bg").style.display = "block";
+					document.getElementById("yincang").style.display = "block";
+					iszhangdie=0;
+				}
+				//买跌点击
+				document.getElementById("maid").onclick = function() {
+					document.getElementById("bg").style.display = "block";
+					document.getElementById("yincang").style.display = "block";
+					document.getElementById("maidi").innerHTML = "确定买跌";
+					iszhangdie=1;
+				}
+				//弹出框关闭
+				document.getElementById("guanbi").onclick = function() {
+					document.getElementById("bg").style.display = "none";
+					document.getElementById("yincang").style.display = "none";
+				}
+
+				
+				
+				//1-10手
+				for(var i = 0; i < document.getElementsByClassName("li").length; i++) {
+					(function(i) {
+						document.getElementsByClassName("li")[i].onclick = function() {
+							for(var j = 0; j < document.getElementsByClassName("li").length; j++) {
+								document.getElementsByClassName("li")[j].classList.remove("hand")
+							}
+							this.classList.add("hand");
+							handnum=this.getAttribute("value");
+							
+							//从新计算止损止盈保证金金额
+							 
+							//设置触发止损金额 =触发止损点数*交易数量*波动价值*汇率
+							zhisunje=zhisunje_num*handnum*volatilityPrice*exchangerate;
+							document.getElementById("zhisunje").innerText="-"+zhisunje;
+		
+		
+							//如果  触发止损点数  小于等于  默认点数    则   保证金=单笔默认保证金*交易数量
+							if(zhisunje_num<=defaultPoints){
+								baozhengjing=singleDefaultMargin*handnum;
+								document.getElementById("baozhengjin").innerText=baozhengjing;
+							}
+							//如果  触发止损点数  大于  默认点数           则       保证金=触发点数/默认点数*单笔默认保证金*交易数量
+							else if(zhisunje_num>defaultPoints){
+								baozhengjing=(zhisunje_num/defaultPoints)*singleDefaultMargin*handnum;
+								document.getElementById("baozhengjin").innerText=baozhengjing;
+							}
+							
+							
+							//设置触发止盈金额=触发止盈点数*交易数量*波动价值*汇率
+							zhiyingje=zhiyingje_num*handnum*volatilityPrice*exchangerate;
+							document.getElementById("zhiyingje").innerText=zhiyingje;
+							
+							//开仓费用=单笔交易费用*交易数量
+							jiaoyifei=singleTransactionCosts*handnum;
+							document.getElementById("jiaoyifei").innerText=jiaoyifei;
+							
+							//合计= 开仓费用+保证金
+							heji=jiaoyifei+baozhengjing;
+							document.getElementById("heji").innerText=heji;  
+							 
+							
+						}
+					})(i)
+				}
+				
+				
+				
+				
+
+				//				上左问号
+				document.getElementById("icon1").onclick = function loss() {
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("rxplain-loss-limit.html", "rxplain-loss-limit.html", {
+						width: '80%',
+						height: '414px',
+						margin: "auto",
+						background: "rgba(0,0,0,0.5)",
+						scrollIndicator: 'none',
+						scalable: false,
+						popGesture: 'none'
+					});
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				}
+				//				上右问号
+				document.getElementById("icon2").onclick = function add() {
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("rxplain-add-limit.html", "rxplain-add-limit-limit.html", {
+						width: '80%',
+						height: '389px',
+						margin: "auto",
+						background: "rgba(0,0,0,0.5)",
+						scrollIndicator: 'none',
+						scalable: false,
+						popGesture: 'none'
+					});
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				}
+				//				下左问号
+				document.getElementById("icon3").onclick = function lossSet() {
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("rxplain-set-loss-limit.html", "rxplain-set-loss-limit.html", {
+						width: '80%',
+						height: '439px',
+						margin: "auto",
+						background: "rgba(0,0,0,0.5)",
+						scrollIndicator: 'none',
+						scalable: false,
+						popGesture: 'none'
+					});
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				}
+				//				下右问号
+				document.getElementById("icon4").onclick = function addSet() {
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("rxplain-set-add-limit.html", "rxplain-set-add-limit.html", {
+						width: '80%',
+						height: '439px',
+						margin: "auto",
+						background: "rgba(0,0,0,0.5)",
+						scrollIndicator: 'none',
+						scalable: false,
+						popGesture: 'none'
+					});
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				}
+				//				移动保本问号
+				document.getElementById("icon5").onclick = function breakEven() {
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("break-even.html", "break-even.html", {
+						width: '80%',
+						height: '464px',
+						margin: "auto",
+						background: "rgba(0,0,0,0.5)",
+						scrollIndicator: 'none',
+						scalable: false,
+						popGesture: 'none'
+					});
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				}
+				
+			
+
+			})(mui);
+		</script>
+	</body>
+
+</html>

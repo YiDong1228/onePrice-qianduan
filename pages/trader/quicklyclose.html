@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;padding: 0;
+				
+			}
+			body{
+				background: #f2f2f2;
+				border: 2px solid #D3B581;
+				height: 100vh;
+			}
+			.kspc{
+				width: 80%;
+				margin: 0 auto;
+			}
+			.xw{
+				text-align: center;
+				margin-top: 15px;
+				font-size: 16px
+			}
+			.dz{
+				width: 100%;
+				background: #D3B581;
+				text-align: center;
+				font-size: 17px;
+				margin-top: 15px;
+				padding: 5px 0px;
+				border-radius: 2px;
+			}
+			.pcsl{
+				margin-top: 15px;
+				width: 100%;
+			}
+			.fl{
+				float: left;
+			}
+			.fr{
+				float: right;
+			}
+			.mt10{
+				margin-top: 10px;
+			}
+			.rmb{
+				color: #f00;
+			}
+			#kspc-qx,#kspc-qd{
+				width: 70px;height: 30px;
+				border: 1px solid #D3B581;
+				color: #D3B581;
+			}
+			#kspc-qd{
+				background: #D3B581;
+				color: #f2f2f2;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="kspc">
+				<div class="xw">确定以市场价平仓吗？</div>
+				<div class="dz">德指</div>
+				<div class="pcsl fl">
+					<span class="fl mt10">平仓数量</span>
+
+					<div class="fr">
+						<span class="mui-icon mui-icon-plus"></span>
+							<input style="width: 70px;" type="number" value="333" />
+						<span class="mui-icon mui-icon-minus"></span>
+					</div>
+
+					
+				</div>
+				<div class="pcsl fl">
+					<span class="fl">卖出费用</span>
+					<span class="fr rmb">100人民币</span>
+				</div>
+				<div class="pcsl fl">
+					<input class="fl" type="button" name="" id="kspc-qx" value="取消" />
+					<input class="fr" type="button" name="" id="kspc-qd" value="确定" />
+				</div>
+
+			</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

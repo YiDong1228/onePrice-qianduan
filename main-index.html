@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/icons-extra.css" />
+
+		<style>
+			html,
+			body {
+				background-color: #1D1E23;
+			}
+			
+			@font-face {
+				font-family: 'MyNewFont';
+				/*字体名称*/
+				src: url('fonts/mui-icons-extra.ttf');
+				;
+				/*字体源文件*/
+			}
+			
+			.mui-bar {
+				background-color: #424242;
+				height: 46px;
+			}
+			
+			.mui-bar-nav {
+				box-shadow: 0 0 0 #1D1E23;
+			}
+			
+			.mui-bar img {
+				margin-top: .5%;
+				height: 90%;
+			}
+			
+			.mui-title {
+				color: #e1b080 !important;
+				line-height: 48px;
+			}
+			
+			.mui-title1 {
+				color: #e1b080 !important;
+				line-height: 48px;
+				display: inline-block;
+				overflow: hidden;
+				width: auto;
+				margin: 0;
+				text-overflow: ellipsis;
+				position: absolute;
+				left: 320px;
+			}
+			
+			h1 {
+				line-height: 46px;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #e1b080;
+			}
+			
+			.mui-bar-tab .mui-tab-item .jyicon {
+				top: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="position: relative;">
+			<img src="images/logodz.png" />
+			<h1 id="title" class="mui-title" style="font-size: 18px;">行情</h1>
+			<span class="mui-title1" id="editor">编辑</span>
+		</header>
+
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="./pages/market/market-index.html">
+				<span class="mui-icon mui-icon-extra mui-icon-extra-trend"></span>
+				<span class="mui-tab-label">行情</span>
+			</a>
+			<a class="mui-tab-item" href="./pages/trader/trader-index.html">
+				<span class="mui-icon mui-icon-extra mui-icon-extra-card jyicon"></span>
+				<!--<span class="mui-badge">9</span>-->
+				<span class="mui-tab-label">交易</span>
+			</a>
+			<!--<a class="mui-tab-item" href="./pages/service/service-index.html">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">服务</span>
+			</a>
+			<a class="mui-tab-item" href="./pages/find/find-index.html">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">发现</span>
+			</a>-->
+			<a class="mui-tab-item" href="./pages/my/my-index.html">
+				<span class="mui-icon  mui-icon-contact"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			//mui初始化
+			(function($) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+
+				var qjurl = "http://192.168.0.101:8088/";
+
+				var network = true;
+				if(mui.os.plus) {
+					mui.plusReady(function() {
+						if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+							network = false;
+						}
+					});
+				}
+
+				//			'./pages/service/service-index.html'服务    './pages/find/find-index.html'发现 
+				var subpages = ['./pages/market/market-index.html', './pages/trader/trader-index.html', './pages/my/my-index.html'];
+				var subpage_style = {
+					top: '47px',
+					bottom: '50px'
+				};
+
+				var aniShow = {};
+
+				//创建子页面，首个选项卡页面显示，其它均隐藏；
+				mui.plusReady(function() {
+					//				更改手机状态栏的背景色
+					plus.navigator.setStatusBarBackground('#424242');
+					var self = plus.webview.currentWebview();
+					for(var i = 0; i < 5; i++) {
+						var temp = {};
+						var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+						if(i > 0) {
+							sub.hide();
+						} else {
+							temp[subpages[i]] = "true";
+							mui.extend(aniShow, temp);
+						}
+						self.append(sub);
+					}
+				});
+				//当前激活选项
+				var activeTab = subpages[0];
+				var title = document.getElementById("title");
+				//选项卡点击事件
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var targetTab = this.getAttribute('href');
+					if(targetTab == activeTab) {
+						return;
+					}
+					//更换标题
+					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+					
+					//除了行情页面 隐藏右上角编辑
+					if(targetTab=='./pages/market/market-index.html'){
+						document.getElementById("editor").innerHTML="编辑";
+					}else{
+						document.getElementById("editor").innerHTML="";
+					}
+					
+					
+					//显示目标选项卡
+					//若为iOS平台或非首次显示，则直接显示
+					if(mui.os.ios || aniShow[targetTab]) {
+						plus.webview.show(targetTab);
+					} else {
+						//否则，使用fade-in动画，且保存变量
+						var temp = {};
+						temp[targetTab] = "true";
+						mui.extend(aniShow, temp);
+						plus.webview.show(targetTab, "fade-in", 300);
+					}
+					//隐藏当前;
+					plus.webview.hide(activeTab);
+					//更改当前活跃的选项卡
+					activeTab = targetTab;
+				});
+				//自定义事件，模拟点击“首页选项卡”
+				document.addEventListener('gohome', function() {
+					var defaultTab = document.getElementById("defaultTab");
+					//模拟首页点击
+					mui.trigger(defaultTab, 'tap');
+					//切换选项卡高亮
+					var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+					if(defaultTab !== current) {
+						current.classList.remove('mui-active');
+						defaultTab.classList.add('mui-active');
+					}
+				});
+
+				function unforced(thisExplanation, ThisApkUrl) {
+
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("unforced.html", "unforced.html", {
+							width: '250px',
+							height: '300px',
+							margin: "auto",
+							background: "rgba(0,0,0,0.5)",
+							scrollIndicator: 'none',
+							scalable: false,
+							popGesture: 'none'
+						}, { //传递的参数
+							explanation: thisExplanation,
+							apkUrl: ThisApkUrl
+						}
+
+					);
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+				};
+
+				function force(thisExplanation, ThisApkUrl) {
+
+					var floatw = null;
+					if(floatw) { // 避免快速多次点击创建多个窗口
+						return;
+					}
+					floatw = plus.webview.create("force.html", "force.html", {
+							width: '250px',
+							height: '300px',
+							margin: "auto",
+							background: "rgba(0,0,0,0.5)",
+							scrollIndicator: 'none',
+							scalable: false,
+							popGesture: 'none'
+						}, { //传递的参数
+							explanation: thisExplanation,
+							apkUrl: ThisApkUrl
+						}
+
+					);
+					floatw.addEventListener("loaded", function() {
+						floatw.show('fade-in', 300);
+						floatw = null;
+					}, false);
+
+				}
+
+				function getAppConfig() {
+
+					//获取终端类型
+					var thisPlatformType = (plus.os.name == "Android" ? 1 : 2);
+					//alert("thisPlatformType："+thisPlatformType);
+
+					//获取版本信息
+					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+						var thisVersion = wgtinfo.version;
+						//alert("thisVersion："+wgtinfo.version);
+
+						mui.ajax({
+							url: api_url + 'sys/getAppConfig',
+							type: 'post',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							processData: false,
+							data: JSON.stringify({
+								platformType: thisPlatformType,
+								version: thisVersion
+							}),
+
+							success: function(data) {
+
+								//var response = JSON.stringify(data);
+								//alert(response); 
+
+								if(data.code == 200) {
+
+									var versionSplit = data.data.version;
+									var dataVersionSplit = versionSplit.split(".").join("");
+
+									var thisVersionSplit = thisVersion.split(".").join("");
+
+									//						    	alert("dataVersionSplit："+dataVersionSplit);
+									//						    	alert("thisVersionSplit："+thisVersionSplit);
+
+									if(thisPlatformType == 1 && data.data.platformType == 1) {
+										//   1                                                       1
+										//安卓
+										if(parseInt(thisVersionSplit) < parseInt(dataVersionSplit)) {
+											//1001                                             1002
+											if(data.data.isRape == 1) {
+												force(data.data.explanation, data.data.apkUrl);
+											} else if(data.data.isRape == 0) {
+
+												unforced(data.data.explanation, data.data.apkUrl);
+											}
+										} else {
+											//alert("已经是最新");
+										}
+									} else {
+										//苹果
+										if(parseInt(thisVersionSplit) < parseInt(dataVersionSplit)) {
+											if(data.data.isRape = 1) {
+
+												force(data.data.explanation, data.data.apkUrl);
+
+											} else if(data.data.isRape = 0) {
+
+												unforced(data.data.explanation, data.data.apkUrl);
+
+											}
+										} else {
+											//alert("已经是最新");
+										}
+									}
+
+								} else {
+									mui.toast(data.message);
+								}
+
+							},
+							error: function(xhr, type, errorThrown) {
+								console.log(type);
+							}
+						});
+					});
+				};
+
+				document.getElementById("editor").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "pages/market/product-order.html",
+						id: "product-order"
+						/*extras: {}*/
+					});
+				});
+
+				//发送请求按钮的点击事件
+				if(network) {
+					mui.plusReady(function() {
+						getAppConfig();
+					});
+				} else {
+					mui.toast("当前网络不给力，请稍后再试");
+				}
+			})(mui);
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,373 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				background: #393939;
+			}
+			
+			header {
+				background: #424242 !important;
+				display: block;
+				position: relative;
+				left: 0px;
+				top: 0px;
+			}
+			
+			.mui-action-back {
+				color: #efefef;
+			}
+			
+			.finish {
+				display: block;
+				text-align: right;
+				line-height: 46px;
+				color: #efefef;
+			}
+			
+			.mui-bar-nav~.mui-content {
+				padding-top: 0px;
+			}
+			
+			.mui-content>.mui-table-view:first-child {
+				margin-top: 0px;
+			}
+			
+			.production {
+				background: #393939;
+				margin-top: 44px;
+				width: 100%;
+				height: 100px;
+			}
+			
+			.production b {
+				padding-top: 25px;
+				padding-left: 16px;
+				font-size: 22px;
+				display: block;
+				color: #efefef;
+			}
+			
+			.production .span {
+				display: inline-block;
+				margin-top: 10px;
+				margin-left: 16px;
+				color: #999;
+				font-size: 13px;
+			}
+			
+			.mui-table-view-cell {
+				width: 96%;
+				height: 50px;
+			}
+			
+			.mui-bar-nav {
+				top: 0;
+				-webkit-box-shadow: 0 0px 0px #ccc;
+				box-shadow: 0 0px 0px #ccc;
+			}
+			
+			.mui-switch.mui-active {
+				border-color: #d9a068;
+				background-color: #d9a068;
+			}
+			
+			ul li span {
+				color: #efefef;
+			}
+			
+			.mui-btn {
+				font-size: 14px;
+				padding: 8px;
+				margin-left: 73%;
+				margin-top: -27px;
+				background: #393939;
+				color: #efefef;
+			}
+			
+			.mui-table-view-cell:after {
+				background: #000;
+			}
+			
+			.mui-table-view:before {
+				background: #000;
+			}
+			
+			.mui-table-view:after {
+				background: #000;
+			}
+			
+			.mui-btn-block {
+				width: 31%;
+			}
+			
+			.mui-content-padded {
+				margin: 0px;
+			}
+			
+			.remind {
+				padding-top: 5px;
+				display: block;
+			}
+			
+			.mui-table-view-cell>.mui-switch {
+				right: 0px;
+			}
+			
+			.p0 {
+				color: #999;
+			}
+			
+			.p1 {
+				color: #06b132;
+			}
+			
+			.p2 {
+				color: #e60020;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title" style="font-size: 18px;color: #efefef;">价格预警</h1>
+			<a class="finish" id="finish">完成</a>
+		</header>
+		<div class="production" id="production">
+			<!--获取产品名字-->
+			<b id="name">&nbsp;</b>
+			<!--获取产品最新价，要根据正负0三种情况变色-->
+			<span class="span">最新价<span id="lastPrice">&nbsp;</span></span>
+			<!--获取产品涨跌幅，要根据正负0三种情况变色-->
+			<span class="span" style="margin-left: 16px;">涨跌幅<span style="margin-left: 4px;" id="changeCount">&nbsp;</span></span>
+		</div>
+		<input type="hidden" id="code" value="" />
+		<input type="hidden" id="system_type" value="" />
+		<div class="mui-content">
+			<ul class="mui-table-view" style="background: #393939;">
+				<li class="mui-table-view-cell mui-disabled" style="position: relative;">
+					<span style="display:block;line-height: 28px;">行情涨到</span>
+					<input id="maxPrice" style="background-color: #ddd;width: 30%;height:60%;position: absolute;left: 150px;top: 11px;color: #666;" type="number" placeholder="输入价格" value="">
+					<div class="mui-switch mui-switch-mini mui-active ">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-disabled" style="position: relative;">
+					<span style="display:block;line-height: 28px;">行情跌到</span>
+					<input id="minPrice" style="background-color: #ddd;width: 30%;height:60%;position: absolute;left: 150px;top: 11px;color: #666;" type="number" placeholder="输入价格" value="">
+					<div class="mui-switch mui-switch-mini mui-active ">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-disabled" style="position: relative;">
+					<span style="display:block;line-height: 28px;">日涨幅超过（%）</span>
+					<input id="maxCount" style="background-color: #ddd;width: 30%;height:60%;position: absolute;left: 150px;top: 11px;color: #666;" type="number" placeholder="输入价格" value="">
+					<div class="mui-switch mui-switch-mini mui-active ">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-disabled" style="position: relative;">
+					<span style="display:block;line-height: 28px;">日跌幅超过（%）</span>
+					<input id="minCount" style="background-color: #ddd;width: 30%;height:60%;position: absolute;left: 150px;top: 11px;color: #666;" type="number" placeholder="输入价格" value="">
+					<div class="mui-switch mui-switch-mini mui-active ">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-disabled mui-collapse">
+					<span class="remind">提醒频次</span>
+					<div class="mui-content-padded">
+						<select class="mui-btn mui-btn-block" id="remind">
+							<option value="1">仅提醒一次</option>
+							<option value="2">每日提醒一次</option>
+						</select>
+					</div>
+		</div>
+		</li>
+		</ul>
+		</div>
+		<div style="color: #efefef;font-size: 12px;width: 90%;margin: 0 auto;" id="tishi">
+			交易品种多次按照设置的方向达到目标点位或目标涨跌幅，仅提醒一次
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			(function($) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+
+				document.getElementById("finish").addEventListener('tap', function() {
+					var token = "这是一个token";
+					var userId = "3";
+					setMarketPrewarning(token, userId);
+				});
+
+				function setMarketPrewarning(token, userId) {
+					mui.ajax({
+						url: api_url + 'market/SetPrewarning',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: document.getElementById("code").value,
+							maxCount: document.getElementById("maxCount").value,
+							maxPrice: document.getElementById("maxPrice").value,
+							minCount: document.getElementById("minCount").value,
+							minPrice: document.getElementById("minPrice").value,
+							remind: document.getElementById("remind").value,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								mui.back();
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				function getMarketPrewarning(token, userId) {
+					mui.ajax({
+						url: api_url + 'market/GetPrewarning',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: document.getElementById("code").value,
+							token: token,
+							userId: userId
+						}),
+
+						success: function(data) {
+							//获取data中数据
+							var obj = eval(data.data);
+							//请求成功时
+							if(data.code == 200) {
+								//获取后台数据替换页面中数值
+								document.getElementById("maxPrice").value = obj.maxPrice;
+								document.getElementById("minPrice").value = obj.minPrice;
+								document.getElementById("maxCount").value = obj.maxCount;
+								document.getElementById("minCount").value = obj.minCount;
+								if(obj.remind == 1) {
+									document.getElementById("remind").value = "1";
+								} else {
+									document.getElementById("remind").value = "2";
+								}
+							} else if(data.code == 400) {
+								document.getElementById("maxPrice").value = "";
+								document.getElementById("minPrice").value = "";
+								document.getElementById("maxCount").value = "";
+								document.getElementById("minCount").value = "";
+								document.getElementById("remind").value = "1";
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				document.getElementById("remind").onchange = function() {
+					if(document.getElementById("remind").value == "1"){
+						document.getElementById("tishi").innerHTML = "交易品种多次按照设置的方向达到目标点位或目标涨跌幅，仅提醒一次";
+					}else{
+						document.getElementById("tishi").innerHTML = "交易品种多次按照设置的方向达到目标点位或目标涨跌幅，仅每个交易日第一次提醒";
+					}
+				}
+
+				function getMarketDetail() {
+
+					mui.ajax({
+						url: api_url + 'market/getDetail',
+						type: 'post',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						processData: false,
+						data: JSON.stringify({
+							code: document.getElementById("code").value,
+							token: "token",
+							userId: 3
+						}),
+
+						success: function(data) {
+							//请求成功时
+							if(data.code == 200) {
+								//获取data中数据
+								var obj = eval(data.data);
+								var str;
+								//获取后台数据替换页面中数值
+								if(obj.changeCount > 0) {
+									str = '<!--获取产品名字--><b id="name">' + document.getElementById("name").innerHTML + '</b><!--获取产品最新价，要根据正负0三种情况变色--><span class="span">最新价<span class="p2" id="lastPrice">' + obj.lastPrice + '</span></span><!--获取产品涨跌幅，要根据正负0三种情况变色--><span class="span" style="margin-left: 16px;">涨跌幅<span class="p2" style="margin-left: 4px;" id="changeCount">+' + obj.changeCount + '%</span></span>';
+								} else if(obj.changeCount == 0) {
+									str = '<!--获取产品名字--><b id="name">' + document.getElementById("name").innerHTML + '</b><!--获取产品最新价，要根据正负0三种情况变色--><span class="span">最新价<span class="p0" id="lastPrice">' + obj.lastPrice + '</span></span><!--获取产品涨跌幅，要根据正负0三种情况变色--><span class="span" style="margin-left: 16px;">涨跌幅<span class="p0" style="margin-left: 4px;" id="changeCount">' + obj.changeCount + '%</span></span>';
+								} else {
+									str = '<!--获取产品名字--><b id="name">' + document.getElementById("name").innerHTML + '</b><!--获取产品最新价，要根据正负0三种情况变色--><span class="span">最新价<span class="p1" id="lastPrice">' + obj.lastPrice + '</span></span><!--获取产品涨跌幅，要根据正负0三种情况变色--><span class="span" style="margin-left: 16px;">涨跌幅<span class="p1" style="margin-left: 4px;" id="changeCount">' + obj.changeCount + '%</span></span>';
+								}
+								document.getElementById("production").innerHTML = str;
+
+							} else {
+								//错误信息打印
+								mui.toast(data.message);
+							}
+
+						},
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+						}
+					});
+				}
+
+				
+
+				mui.plusReady(function() {
+					var token = "token";
+					var userId = 3;
+					var self = plus.webview.currentWebview();
+					var code = self.code;
+					var name = self.name;
+					var lastPrice = self.lastPrice;
+					var system_type = self.system_type;
+					document.getElementById("code").value = code;
+					document.getElementById("system_type").value = system_type;
+					var changeCount = self.changeCount.substr(0, self.changeCount.length - 1);
+					if(changeCount > 0) {
+						str = '<!--获取产品名字--><b id="name">' + name + '</b><!--获取产品最新价，要根据正负0三种情况变色--><span class="span">最新价<span class="p2" id="lastPrice">' + lastPrice + '</span></span><!--获取产品涨跌幅，要根据正负0三种情况变色--><span class="span" style="margin-left: 16px;">涨跌幅<span class="p2" style="margin-left: 4px;" id="changeCount">+' + changeCount + '%</span></span>';
+					} else if(changeCount == 0) {
+						str = '<!--获取产品名字--><b id="name">' + name + '</b><!--获取产品最新价，要根据正负0三种情况变色--><span class="span">最新价<span class="p0" id="lastPrice">' + lastPrice + '</span></span><!--获取产品涨跌幅，要根据正负0三种情况变色--><span class="span" style="margin-left: 16px;">涨跌幅<span class="p0" style="margin-left: 4px;" id="changeCount">' + changeCount + '%</span></span>';
+					} else {
+						str = '<!--获取产品名字--><b id="name">' + name + '</b><!--获取产品最新价，要根据正负0三种情况变色--><span class="span">最新价<span class="p1" id="lastPrice">' + lastPrice + '</span></span><!--获取产品涨跌幅，要根据正负0三种情况变色--><span class="span" style="margin-left: 16px;">涨跌幅<span class="p1" style="margin-left: 4px;" id="changeCount">' + changeCount + '%</span></span>';
+					}
+					document.getElementById("production").innerHTML = str;
+					getMarketPrewarning(token, userId);
+					
+					setInterval(getMarketDetail, 1000);
+				})
+
+			})(mui);
+		</script>
+	</body>
+
+</html>

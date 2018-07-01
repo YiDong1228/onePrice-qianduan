@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<!--<meta name="MobileOptimized" content="320"/>-->
+		<title>Hello H5+</title>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+		var pays={};
+		function plusReady(){
+			// 获取支付通道
+			plus.payment.getChannels(function(channels){
+				for(var i in channels){
+					var channel=channels[i];
+					if(channel.id=='qhpay'||channel.id=='qihoo'){	// 过滤掉不支持的支付通道：暂不支持360相关支付
+						continue;
+					}
+					pays[channel.id]=channel;
+					checkServices(channel);
+				}
+			},function(e){
+				outLine('获取支付通道失败：'+e.message);
+			});
+		}
+		document.addEventListener('plusready', plusReady, false);
+		// 检测是否安装支付服务
+		function checkServices(pc){
+			if(!pc.serviceReady){
+				var txt=null;
+				switch(pc.id){
+					case 'alipay':
+					txt='检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+					break;
+					default:
+					txt='系统未安装“'+pc.description+'”服务，无法完成支付，是否立即安装？';
+					break;
+				}
+				plus.nativeUI.confirm(txt, function(e){
+					if(e.index==0){
+						pc.installService();
+					}
+				}, pc.description);
+			}
+		} 
+		
+		var w=null;
+		var PAYSERVER='http://pay.cehk.vip:9090/pay/alipay?totalAmount=';
+		//var PAYSERVER='http://192.168.0.105:9090/pay/alipay?totalAmount='; 
+		// 支付
+		function pay(id){
+			if(w){return;}//检查是否请求订单中
+			
+			outSet('----- 请求支付 -----');
+			var url=PAYSERVER;
+			if(id=='alipay'||id=='wxpay'){ 
+				
+			}else{
+				plus.nativeUI.alert('当前环境不支持此支付通道！', null, '捐赠');
+				return;
+			}
+			var appid=plus.runtime.appid;
+			if(navigator.userAgent.indexOf('StreamApp')>=0){
+				appid='Stream';
+			}
+			
+			
+			w=plus.nativeUI.showWaiting();
+			// 请求支付订单
+			var amount = document.getElementById('total').value;
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				switch(xhr.readyState){
+					case 4:
+					w.close();w=null; 
+					if(xhr.status==200){
+						outLine('----- 请求订单成功 -----');
+						outLine(xhr.responseText);  
+						var order=xhr.responseText; 
+						//order="app_id=2018062860441303&biz_content=%7B%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%221530254129122%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22App%E6%94%AF%E4%BB%98%E6%B5%8B%E8%AF%95Java%22%2C%22timeout_express%22%3A%2230m%22%2C%22total_amount%22%3A%220.01%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fpay.cehk.vip%3A9090%2Fpay%2Falipay%2Fnotify&sign=lXA4P%2FVXPWAw6gqaH68lzbE%2FPYRSgMyByZ4sKpt%2BDEVkz3aIu9vYGgsSFZVhivDdJLS1kMKG2uEeOd6vYx%2BBF4RScTWbJKZ55xw7Vst6xCKms8YVTgwSR4oS0DGwPJVnvGvlCJNrJX%2FeRUI8VcLiw7aOdclThxMFjikHRRU1q9R6%2BfyB%2FLGPBQHlCJD43ACqtFyuqF%2FaqAhDwF8k0mPxJArTSaY2Lik3pnUCB4QZWruL5%2BMawso8QZIs8LHeKGX%2FbTujwNZIRAE2yqMSRCAL3S96rCoP084NzKBkWItQNBCis3N%2Fo2dm%2Bo6idExRGGvUzngwF%2FOzRvgqitG0nYk69A%3D%3D&sign_type=RSA2&timestamp=2018-06-29+14%3A35%3A29&version=1.0";
+						plus.payment.request(pays[id],order,function(result){
+							outLine('----- 支付成功 -----');
+							outLine(JSON.stringify(result));
+							plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。',function(){
+								back();
+							},'捐赠');
+						},function(e){
+							outLine('----- 支付失败 -----');
+							outLine('['+e.code+']：'+e.message);
+							plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：'+e.code);
+						});
+					}else{
+						outLine('----- 请求订单失败 -----');
+						outLine( xhr.status );
+						plus.nativeUI.alert('获取订单信息失败！', null, '捐赠');
+					}
+					break;
+					default:
+					break;
+				}
+			}
+			xhr.open('GET',url+amount); 
+			outLine('请求支付订单：'+url+amount);
+			xhr.send();
+		}
+		</script>
+	
+		<style type="text/css">
+		#total{
+			-webkit-user-select:text;
+			text-align:right;
+			padding:0 1em;
+			border: 0px;
+			border-bottom:1px solid #ECB100; 
+			border-radius: 0;
+			font-size:16px;
+			width:30%;
+			outline:none;
+		}
+		</style>
+	</head>
+	<body>
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">Payment</div>
+			
+		</header>
+		<div id="dcontent" class="dcontent">
+			<br/>
+			
+			
+			<div style="padding: 0 1em;text-align:left">
+				捐赠金额：<input id="total" type="number" value="1"/> 元
+			</div> 
+			<br/> 
+			  <div class="button" onclick="pay('alipay')">支付宝支付</div>
+		</div>
+		<div id="output">
+Payment模块管理支付功能，可通过js调用第三方支付服务。通过plus.payment可获取支付管理对象。
+		</div>
+	</body>
+	
+</html> 
